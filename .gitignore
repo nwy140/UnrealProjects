@@ -1,14 +1,26 @@
+#Binaries Build Intermediates and Saved Directories can be ignored
+*/Binaries
+*/Build
+*/Intermediate
+*/Saved
+*/DerivedDataCache
+
+#Ignore starter content
+BuildingEscape\Content\StarterContent
+
+
 # Visual Studio 2015 user specific files
 .vs/
 
-# Visual Studio 2015 database file
+# Visual Studio 2015 database file // Right click and generate visual studio project file if visual studio doesn't detect solution project
 *.VC.db
 
 # Compiled Object files
 *.slo
-*.lo
+*.lo			
 *.o
-*.obj
+*.obj 
+#ignoring obj files might ignore 3d models, stop ignoring .obj if it happens
 
 # Precompiled Headers
 *.gch
