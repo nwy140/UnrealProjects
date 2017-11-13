@@ -5,9 +5,10 @@
 */Saved
 */DerivedDataCache
 
-#Ignore starter content
-BuildingEscape\Content\StarterContent
 
+
+#Ignore starter content
+02_BuildingEscape/BuildingEscape/Content/StarterContent
 
 # Visual Studio 2015 user specific files
 .vs/
@@ -85,4 +86,3 @@ Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
-02_BuildingEscape/BuildingEscape/Content/StarterContent
