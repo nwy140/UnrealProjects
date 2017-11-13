@@ -18,9 +18,9 @@ UPositionReport::UPositionReport()
 void UPositionReport::BeginPlay()
 {
 	Super::BeginPlay();
-
+	UE_LOG(LogTemp, Warning, TEXT("Position report reporting for duty on Chair!")); //Log for grey text,Warning for yellow text,Error for red text
+																				//Goto developer tools and output log to view printing text
 	// ...
-	
 }
 
 
