@@ -88,3 +88,5 @@ Intermediate/*
 DerivedDataCache/*
 02_BuildingEscape/BuildingEscape/Intermediate/
 02_BuildingEscape/BuildingEscape/Saved/
+02_BuildingEscape/BuildingEscape/Binaries/Win64/BuildingEscapeEditor.target
+02_BuildingEscape/BuildingEscape/Binaries/Win64/UE4Editor.modules
