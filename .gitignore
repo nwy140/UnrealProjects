@@ -87,3 +87,4 @@ Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 02_BuildingEscape/BuildingEscape/Intermediate/
+02_BuildingEscape/BuildingEscape/Saved/
