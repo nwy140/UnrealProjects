@@ -19,20 +19,23 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// ...
+
+}
+
+void UOpenDoor::OpenDoor() // Quick actions - Extract function
+{
 	//Find Owning Actor
 	AActor *Owner = GetOwner();
 
 	//Create a Rotator
-	FRotator NewRotation = FRotator(0.f,-60.f,0.f);// FRotater Constructor Pass X,Y,Z as pitch , yaw and roll
-															// pitch is x axis up and down, Yaw is ground left and right, Roll is z axis up and down
-	//Set the door Rotation
+	FRotator NewRotation = FRotator(0.f, -60.f, 0.f);// FRotater Constructor Pass X,Y,Z as pitch , yaw and roll
+													 // pitch is x axis up and down, Yaw is ground left and right, Roll is z axis up and down
+													 //Set the door Rotation
 	Owner->SetActorRotation(NewRotation);
 
 
 	//UE_LOG(LogTemp, Error, TEXT("%s"), Rotater.ToString());
-
-	// ...
-
 }
 
 
@@ -41,6 +44,14 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	//Poll the triggervolume every frame
+
+	//If the ActorThatOpens is in the volume
+	if (PressurePlate->IsOverlappingActor(ActorThatOpens)) // write pressureplate && pressureplate = null to check if getting crashes
+	{
+		OpenDoor();
+	}
+		
+
 }
 
