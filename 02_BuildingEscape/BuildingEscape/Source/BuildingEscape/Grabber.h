@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Grabber.generated.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 
+
+#include "Grabber.generated.h"
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDINGESCAPE_API UGrabber : public UActorComponent
@@ -27,5 +29,6 @@ public:
 private:
 	float Reach=100.f;
 		
-	
+	UPhysicsHandleComponent * PhysicHandle = nullptr; //Pointer to other component , in same object
+		
 };

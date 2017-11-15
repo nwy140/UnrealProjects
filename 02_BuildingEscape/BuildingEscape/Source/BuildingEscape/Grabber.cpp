@@ -3,6 +3,8 @@
 #include "Grabber.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/PlayerController.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+
 #include "Engine/World.h"
 
 #include "DrawDebugHelpers.h"
@@ -27,8 +29,14 @@ void UGrabber::BeginPlay()
 
 	UE_LOG(LogTemp, Warning, TEXT("Grabber %s reporting for duty!"), *(GetOwner()->GetName()));
 
-	/// ...
-
+	///Find attached physichandler component
+	PhysicHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();//<> is generic signature //specify class here without relying on intelisense
+	if (PhysicHandle) {
+		//PhysicHandler is found
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("PhsicHandler component not found in object %s"), *(GetOwner()->GetName()) );
+	}
 }
 
 
