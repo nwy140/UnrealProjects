@@ -2,6 +2,10 @@
 
 #include "Grabber.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/PlayerController.h"
+#include "Engine/World.h"
+
+#define OUT
 
 // Sets default values for this component's properties
 UGrabber::UGrabber()
@@ -19,10 +23,10 @@ void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("Grabber %s reporting for duty!"), *(GetOwner()->GetName()) );
+	UE_LOG(LogTemp, Warning, TEXT("Grabber %s reporting for duty!"), *(GetOwner()->GetName()));
 
 	// ...
-	
+
 }
 
 
@@ -31,6 +35,22 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	//Get player view point this tick
+
+	FVector PlayerViewPointLocation;
+	FRotator PlayerViewPointRotation;
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+		OUT	PlayerViewPointLocation, //Set ViewPointLocation
+		OUT	PlayerViewPointRotation //OUT actually does nothing /// Just marking parameters with OUT to show the variables you need to log out
+	); //Go from world, then get player, then get view of player
+
+	//TODO: LOG out to test
+
+	UE_LOG(LogTemp, Warning, TEXT("Location : %s , Rotation : %s "), *(PlayerViewPointLocation.ToString()), *(PlayerViewPointRotation.ToString()));
+
+
+	//Ray-cast out to reach distance  // imagine superman laser eyes logging
+
+	//See what we hit
 }
 
