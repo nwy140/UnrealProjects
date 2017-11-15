@@ -5,6 +5,8 @@
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 
+#include "DrawDebugHelpers.h"
+
 #define OUT
 
 // Sets default values for this component's properties
@@ -44,10 +46,22 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		OUT	PlayerViewPointRotation //OUT actually does nothing /// Just marking parameters with OUT to show the variables you need to log out
 	); //Go from world, then get player, then get view of player
 
+
 	//TODO: LOG out to test
+	//UE_LOG(LogTemp, Warning, TEXT("Location : %s , Rotation : %s "), *(PlayerViewPointLocation.ToString()), *(PlayerViewPointRotation.ToString()));
 
-	UE_LOG(LogTemp, Warning, TEXT("Location : %s , Rotation : %s "), *(PlayerViewPointLocation.ToString()), *(PlayerViewPointRotation.ToString()));
-
+	FVector LineTraceEnd = PlayerViewPointLocation  + PlayerViewPointRotation.Vector() * Reach;
+	// Draw a red trace in the world to visualize
+	DrawDebugLine(
+		GetWorld(),
+		PlayerViewPointLocation,
+		LineTraceEnd,
+		FColor(255, 0, 0),
+		false, // won't disapper
+		0.f,
+		0.f,
+		10.f
+	);
 
 	//Ray-cast out to reach distance  // imagine superman laser eyes logging
 
