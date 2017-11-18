@@ -10,7 +10,6 @@
 #include "DrawDebugHelpers.h"
 
 #define OUT
-
 /// Sets default values for this component's properties
 UGrabber::UGrabber()
 {
@@ -18,49 +17,70 @@ UGrabber::UGrabber()
 	/// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	/// ...
 }
-
 
 /// Called when the game starts
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("Grabber %s reporting for duty!"), *(GetOwner()->GetName()));
+	///UE_LOG(LogTemp, Warning, TEXT("Grabber %s reporting for duty!"), *(GetOwner()->GetName()));
 
-	///Find attached physichandler component
+	///Find (assumed) attached physichandler component
+	FindPhysicsHandleComponent();
+
+	///Setup (assumed) attached Input Component
+	SetupInputComponent();
+
+}
+
+#pragma region DefineMethods 
+
+#pragma region DefineBindActionMethods
+void UGrabber::Grab() {
+	//Avoid using semicolons at the end of macros to avoid bugs in the future
+	UE_LOG(LogTemp, Warning, TEXT("Grab pressed"))
+		// LINE TRACE and see if we reach any actors with physicsbody collision channel set
+		GetFirstPhysicBodyInReach();
+	// if we hit something then attach a physic handle
+	//TODO attach physic handle	
+}	
+
+void UGrabber::Release() {
+	UE_LOG(LogTemp, Warning, TEXT("Grab released"))
+	//TODO release physic handle
+}
+#pragma endregion 
+
+#pragma region DefineComponentMethods
+///Look for attached physics Component
+void UGrabber::FindPhysicsHandleComponent() {
 	PhysicHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();//<> is generic signature //specify class here without relying on intelisense
 	if (PhysicHandle) {
 		//PhysicHandler is found
 	}
 	else {
-		UE_LOG(LogTemp, Error, TEXT("PhysicHandler component not found in object %s"), *(GetOwner()->GetName()) );
+		UE_LOG(LogTemp, Error, TEXT("PhysicHandler component not found in object %s"), *(GetOwner()->GetName()));
 	}
 
+}
+
+/// Setup attached Input Component
+void UGrabber::SetupInputComponent()
+{
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
 	if (InputComponent) {///	Input Component found
-		UE_LOG(LogTemp, Warning, TEXT("Input component found in object %s") ,*(GetOwner()->GetName()));
+		UE_LOG(LogTemp, Warning, TEXT("Input component found in object %s"), *(GetOwner()->GetName()));
 		//Bind the input axis
 		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
 		InputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Release);
 	}
 	else {
-		UE_LOG(LogTemp, Error, TEXT("Input component not found"), *(GetOwner()->GetName()) );
-
+		UE_LOG(LogTemp, Error, TEXT("Input component not found"), *(GetOwner()->GetName()));
 	}
-		
 }
-
-void UGrabber::Grab() {
-	//Avoid using semicolons at the end of macros to avoid bugs in the future
-	UE_LOG(LogTemp, Warning, TEXT("Grab pressed")	)
-
-}
-void UGrabber::Release() {
-	UE_LOG(LogTemp, Warning, TEXT("Grab released"))
-
-}
+#pragma endregion 
+#pragma endregion
 
 
 /// Called every frame
@@ -68,7 +88,15 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	///Get player view point this tick
+	// if physics handle is attached
+		// move the object we are handling	
+
+
+}
+
+
+const FHitResult UGrabber::GetFirstPhysicBodyInReach()
+{	///Get player view point this tick
 
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotation;
@@ -78,8 +106,8 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	); ///Go from world, then get player, then get view of player
 
 
-	///TODO: LOG out to test
-	///UE_LOG(LogTemp, Warning, TEXT("Location : %s , Rotation : %s "), *(PlayerViewPointLocation.ToString()), *(PlayerViewPointRotation.ToString()));
+	   ///TODO: LOG out to test
+	   ///UE_LOG(LogTemp, Warning, TEXT("Location : %s , Rotation : %s "), *(PlayerViewPointLocation.ToString()), *(PlayerViewPointRotation.ToString()));
 
 	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
 	/// Draw a red trace in the world to visualize
@@ -93,7 +121,6 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		0.f,
 		10.f
 	);
-
 
 	///Setup query parameter
 	FCollisionQueryParams	TraceParameters(FName(TEXT("")), false, GetOwner());
@@ -109,35 +136,12 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 	); ////LineTraceMulti will pass through multiple objects and report multiple answers	
 
-	///See what we hit
+	   ///See what we hit
 	AActor * ActorHit = Hit.GetActor();
 	if (ActorHit) // Since this loads every frame, it will crash before hit is instantiated because it points to nullpointer, so you need to prevent this error with an if statement
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *(ActorHit->GetName() ));
+		UE_LOG(LogTemp, Warning, TEXT("Line Trace hit: %s"), *(ActorHit->GetName()));
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	return FHitResult();
 }
 

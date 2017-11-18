@@ -1,0 +1,32 @@
+// Copyright Ng Wei Yuen
+
+//C++ header file quickregions
+private: 
+#pragma region DeclareVariables
+	///Eg:	float Reach = 100.f;
+#pragma endregion
+
+#pragma region DeclarePointers
+	///You got to include headers for every class component you are using
+	///Eg :	UInputComponent * InputComponent = nullptr;
+#pragma endregion
+
+#pragma region DeclareMethods
+	///Place any methods you are going to create here
+	///Eg: void SetupInputComponent();
+#pragma endregion
+
+
+//C++ cpp file quick regions
+#pragma region DefineMethods
+///Place methods for initilization from class
+
+#pragma region DefindBindActionMethods
+///Place methods regarding binding actions here
+#pragma endregion 
+
+#pragma region DefineComponentMethods
+///Place methods regarding accessing Components here
+#pragma endregion
+
+#pragma endregion
