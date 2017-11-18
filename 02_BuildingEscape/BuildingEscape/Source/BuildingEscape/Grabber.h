@@ -30,6 +30,9 @@ private:
 
 #pragma region DeclareVariables
 	float Reach = 100.f;
+	FVector PlayerViewPointLocation;
+	FRotator PlayerViewPointRotation;
+	FVector LineTraceEnd;
 #pragma endregion
 
 #pragma region DeclarePointers
@@ -54,5 +57,6 @@ private:
 	//Return hit for first physic body in reach
 	const FHitResult GetFirstPhysicBodyInReach();
 
+	const void GenerateLineTrace();
 #pragma endregion
 };

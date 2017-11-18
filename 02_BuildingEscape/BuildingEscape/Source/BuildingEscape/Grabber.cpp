@@ -27,8 +27,6 @@ void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 
-	///UE_LOG(LogTemp, Warning, TEXT("Grabber %s reporting for duty!"), *(GetOwner()->GetName()));
-
 	///Find (assumed) attached physichandler component
 	FindPhysicsHandleComponent();
 
@@ -43,6 +41,7 @@ void UGrabber::BeginPlay()
 void UGrabber::Grab() {
 	//Avoid using semicolons at the end of macros to avoid bugs in the future
 	UE_LOG(LogTemp, Warning, TEXT("Grab pressed"))
+
 		// LINE TRACE and see if we reach any actors with physicsbody collision channel set
 	auto HitResult = GetFirstPhysicBodyInReach(); //auto is a c++ 11 type that automatically decides an appropriate type for you
 	auto ComponentToGrab = HitResult.GetComponent();
@@ -102,20 +101,7 @@ void UGrabber::SetupInputComponent()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-#pragma region tmp
-	FVector PlayerViewPointLocation;
-	FRotator PlayerViewPointRotation;
-	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
-		OUT	PlayerViewPointLocation, ///Set ViewPointLocation
-		OUT	PlayerViewPointRotation ///OUT actually does nothing //// Just marking parameters with OUT to show the variables you need to log out
-	); ///Go from world, then get player, then get view of player
-
-
-	   ///TODO: LOG out to test
-	   ///UE_LOG(LogTemp, Warning, TEXT("Location : %s , Rotation : %s "), *(PlayerViewPointLocation.ToString()), *(PlayerViewPointRotation.ToString()));
-
-	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
-#pragma endregion 
+	GenerateLineTrace();
 	// if physics handle is attached
 	if (PhysicHandle->GrabbedComponent){
 		
@@ -126,23 +112,25 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 }
 
-
-
-const FHitResult UGrabber::GetFirstPhysicBodyInReach()
-{	///Get player view point this tick
-
-	FVector PlayerViewPointLocation;
-	FRotator PlayerViewPointRotation;
+const void UGrabber::GenerateLineTrace() {
+	FVector *pPlayerViewPointLocation = &PlayerViewPointLocation;
+	FRotator *pPlayerViewPointRotation = &PlayerViewPointRotation;
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
-		OUT	PlayerViewPointLocation, ///Set ViewPointLocation
-		OUT	PlayerViewPointRotation ///OUT actually does nothing //// Just marking parameters with OUT to show the variables you need to log out
+		OUT	*pPlayerViewPointLocation, ///Set ViewPointLocation
+		OUT	*pPlayerViewPointRotation ///OUT actually does nothing //// Just marking parameters with OUT to show the variables you need to log out
 	); ///Go from world, then get player, then get view of player
 
 
 	   ///TODO: LOG out to test
 	   ///UE_LOG(LogTemp, Warning, TEXT("Location : %s , Rotation : %s "), *(PlayerViewPointLocation.ToString()), *(PlayerViewPointRotation.ToString()));
+	FVector *pLineTraceEnd = &LineTraceEnd;
+	*pLineTraceEnd = *pPlayerViewPointLocation + pPlayerViewPointRotation->Vector() * Reach;
+}
+const FHitResult UGrabber::GetFirstPhysicBodyInReach()
+{	///Get player view point this tick
+	
 
-	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
+
 	/// Draw a red trace in the world to visualize
 	DrawDebugLine(
 		GetWorld(),
