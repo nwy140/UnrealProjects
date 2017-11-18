@@ -30,9 +30,6 @@ private:
 
 #pragma region DeclareVariables
 	float Reach = 100.f;
-	FVector PlayerViewPointLocation;
-	FRotator PlayerViewPointRotation;
-	FVector LineTraceEnd;
 #pragma endregion
 
 #pragma region DeclarePointers
@@ -44,7 +41,7 @@ private:
 #pragma region DeclareMethods
 	// Ray cast and grab what's in reach
 	void Grab();
-	
+
 	//Called when grab is released
 	void Release();
 
@@ -57,6 +54,9 @@ private:
 	//Return hit for first physic body in reach
 	const FHitResult GetFirstPhysicBodyInReach();
 
-	const void GenerateLineTrace();
+	FVector GetReachLineEnd();
+
+	FVector GetReachLineStart();
+
 #pragma endregion
 };
