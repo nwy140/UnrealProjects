@@ -35,11 +35,27 @@ void UGrabber::BeginPlay()
 		//PhysicHandler is found
 	}
 	else {
-		UE_LOG(LogTemp, Error, TEXT("PhsicHandler component not found in object %s"), *(GetOwner()->GetName()) );
+		UE_LOG(LogTemp, Error, TEXT("PhysicHandler component not found in object %s"), *(GetOwner()->GetName()) );
 	}
+
+	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
+	if (InputComponent) {///	Input Component found
+		UE_LOG(LogTemp, Warning, TEXT("Input component found in object %s") ,*(GetOwner()->GetName()));
+		//Bind the input axis
+		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("Input component not found"), *(GetOwner()->GetName()) );
+
+	}
+	
 }
 
+void UGrabber::Grab() {
+	//Avoid using semicolons at the end of macros to avoid bugs in the future
+	UE_LOG(LogTemp, Warning, TEXT("Grab pressed"))
 
+}
 /// Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -92,5 +108,29 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s"), *(ActorHit->GetName() ));
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 

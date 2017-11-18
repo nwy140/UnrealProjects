@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
-
+#include "Components/InputComponent.h"
 
 #include "Grabber.generated.h"
 
@@ -29,6 +29,12 @@ public:
 private:
 	float Reach=100.f;
 		
+	//You got to include headers for every class component you are using
 	UPhysicsHandleComponent * PhysicHandle = nullptr; //Pointer to other component , in same object
-		
+	UInputComponent * InputComponent = nullptr;
+	
+	// Ray cast and grab what's in reach
+	void Grab();
+
+
 };
