@@ -43,19 +43,26 @@ void UGrabber::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("Input component found in object %s") ,*(GetOwner()->GetName()));
 		//Bind the input axis
 		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+		InputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Release);
 	}
 	else {
 		UE_LOG(LogTemp, Error, TEXT("Input component not found"), *(GetOwner()->GetName()) );
 
 	}
-	
+		
 }
 
 void UGrabber::Grab() {
 	//Avoid using semicolons at the end of macros to avoid bugs in the future
-	UE_LOG(LogTemp, Warning, TEXT("Grab pressed"))
+	UE_LOG(LogTemp, Warning, TEXT("Grab pressed")	)
 
 }
+void UGrabber::Release() {
+	UE_LOG(LogTemp, Warning, TEXT("Grab released"))
+
+}
+
+
 /// Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
