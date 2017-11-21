@@ -2,8 +2,10 @@
 
 #include "OpenDoor.h"
 #include <GameFramework/Actor.h>
+#include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 
+#define OUT
 
 // Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
@@ -22,8 +24,6 @@ void UOpenDoor::BeginPlay()
 	Super::BeginPlay();
 
 	Owner = GetOwner();
-	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();//player controller is the link between the pawn and the person using the machine
-	// ... 
 
 }
 
@@ -50,7 +50,7 @@ void UOpenDoor::CloseDoor() // Quick actions - Extract function
 	//FRotator NewRotation = ();// FRotater Constructor Pass X,Y,Z as pitch , yaw and roll
 													 // pitch is x axis up and down, Yaw is ground left and right, Roll is z axis up and down
 													 //Set the door Rotation
-	Owner->SetActorRotation(FRotator(0.f, 0.f, 0.f)	);
+	Owner->SetActorRotation(FRotator(0.f, 0.f, 0.f));
 
 
 	//UE_LOG(LogTemp, Error, TEXT("%s"), Rotater.ToString());
@@ -65,19 +65,38 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	//Poll the triggervolume every frame
 
+
 	//If the ActorThatOpens is in the volume
-	if (PressurePlate->IsOverlappingActor(ActorThatOpens)) // write pressureplate && pressureplate = null to check if getting crashes
+	if (GetTotalMasssOfActorOnPlate() >= 30.f)	//if you hard code something ,you an make it into a parameter
 	{
 		OpenDoor();
 		LastDoorOpenTime = GetWorld()->GetTimeSeconds(); //GetTimeSeconds is the number of secnds passed since gamestarted
-		
+
 	}
-	 if (		( 	GetWorld()->GetTimeSeconds()  - (LastDoorOpenTime )	) > DoorCloseDelay	) 
+	if ((GetWorld()->GetTimeSeconds() - (LastDoorOpenTime)) > DoorCloseDelay)
 	{
-		CloseDoor(); 
+		CloseDoor();
 	}
 	//Check if time to close the door
 
 
 }
 
+float UOpenDoor::GetTotalMasssOfActorOnPlate()
+{
+	float TotalMass = 0.f;
+
+	//find all overlapping actors
+	TArray<AActor*> OverlappingActors; //TArray is a type mean for elements of the same type, similar to the regular array, //int array[] is the same as TArray<int>
+	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
+	//iterate through them adding their masses
+
+	for (const auto* Actor : OverlappingActors) { // const to show that actor does not change here, we just receive the actor
+													// auto is auto class type				
+		TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();// Get Owner is getting owner of component, not Actor Object, if you do it to object, it will be a nullpointer thus crashing the engine
+		UE_LOG(LogTemp, Warning, TEXT("%s on pressure plate"),* (Actor->FindComponentByClass<UPrimitiveComponent>()->GetOwner()->GetName()))
+			// Table and chair doesn't generate events, so you have to go to physics and check generateevents on collision
+	}
+
+	return TotalMass;
+}

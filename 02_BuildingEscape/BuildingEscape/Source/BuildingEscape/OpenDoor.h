@@ -35,7 +35,7 @@ private:
 						 //make sure there is no space after UProperty
 
 	UPROPERTY(EditAnywhere)
-	ATriggerVolume* PressurePlate; // TriggerVolume pointer shows up at details via macro , and can be edited	
+		ATriggerVolume* PressurePlate; // TriggerVolume pointer shows up at details via macro , and can be edited	
 									//UPROPERTY macro shows PressurePlate in details tab, click it, then select TriggerVolume object to associate with pressureplate
 								   // to see what type an object is, drag it to world outliner,  see its type, then include its header and use intelisense to type its type in c++
 	UPROPERTY(EditAnywhere)
@@ -44,8 +44,10 @@ private:
 	float LastDoorOpenTime;
 
 	//UPROPERTY(EditAnywhere)
-	AActor* ActorThatOpens; // Remember pawn inherits from actor
 
 	AActor* Owner;
+
+	//return mass in kg
+	float GetTotalMasssOfActorOnPlate();
 
 };
