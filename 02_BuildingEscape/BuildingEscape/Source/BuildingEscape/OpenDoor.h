@@ -34,8 +34,8 @@ private:
 						 //macro parameter has no relevant auto complete because visual studio does not know what is going on for macros
 						 //make sure there is no space after UProperty
 
-	UPROPERTY(EditAnywhere)
-		ATriggerVolume* PressurePlate; // TriggerVolume pointer shows up at details via macro , and can be edited	
+	UPROPERTY(EditAnywhere)				// when intializing pointer ,always set it to nullptr to  let yourself know it is pointing to null at the start to avoid crash
+		ATriggerVolume* PressurePlate = nullptr; // TriggerVolume pointer shows up at details via macro , and can be edited	
 									//UPROPERTY macro shows PressurePlate in details tab, click it, then select TriggerVolume object to associate with pressureplate
 								   // to see what type an object is, drag it to world outliner,  see its type, then include its header and use intelisense to type its type in c++
 	UPROPERTY(EditAnywhere)
@@ -45,7 +45,7 @@ private:
 
 	//UPROPERTY(EditAnywhere)
 
-	AActor* Owner;
+	AActor* Owner = nullptr;
 
 	//return mass in kg
 	float GetTotalMasssOfActorOnPlate();

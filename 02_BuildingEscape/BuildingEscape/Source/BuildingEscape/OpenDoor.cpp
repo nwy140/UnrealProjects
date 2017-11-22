@@ -85,7 +85,8 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 float UOpenDoor::GetTotalMasssOfActorOnPlate()
 {
 	float TotalMass = 0.f;
-
+	if (!PressurePlate) { UE_LOG(LogTemp,Error,TEXT("Pressure Plate points to a null pointer"))
+							return TotalMass; }
 	//find all overlapping actors
 	TArray<AActor*> OverlappingActors; //TArray is a type mean for elements of the same type, similar to the regular array, //int array[] is the same as TArray<int>
 	PressurePlate->GetOverlappingActors(OUT OverlappingActors);

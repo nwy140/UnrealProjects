@@ -36,7 +36,8 @@ void UGrabber::BeginPlay()
 #pragma region DefineMethods 
 
 #pragma region DefineBindActionMethods
-void UGrabber::Grab() {
+void UGrabber::Grab()
+{
 	//Avoid using semicolons at the end of macros to avoid bugs in the future //UE_LOG(LogTemp, Warning, TEXT("Grab pressed"))
 	// LINE TRACE and see if we reach any actors with physicsbody collision channel set
 	auto HitResult = GetFirstPhysicBodyInReach(); //auto is a c++ 11 type that automatically decides an appropriate type for you
@@ -45,7 +46,8 @@ void UGrabber::Grab() {
 
 	// if we hit something then attach a physic handle
 	if (ActorHit) { // if actor hit not equal null
-					//TODO attach physic handle	
+		if (!PhysicHandle) { return; }
+		//TODO attach physic handle	
 		PhysicHandle->GrabComponentAtLocationWithRotation( //Grab Component method no longer work with new API, so use GrabcomponentwithLocation
 			ComponentToGrab,
 			NAME_None, // no bones needed
@@ -55,14 +57,17 @@ void UGrabber::Grab() {
 	}
 }
 
-void UGrabber::Release() {
-		PhysicHandle->ReleaseComponent();
+void UGrabber::Release()
+{
+	if (!PhysicHandle) { return; }
+	PhysicHandle->ReleaseComponent();
 }
 #pragma endregion 
 
 #pragma region DefineComponentMethods
 ///Look for attached physics Component
-void UGrabber::FindPhysicsHandleComponent() {
+void UGrabber::FindPhysicsHandleComponent()
+{
 	PhysicHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();//<> is generic signature //specify class here without relying on intelisense
 	if (PhysicHandle == nullptr) {
 		UE_LOG(LogTemp, Error, TEXT("PhysicHandler component not found in object %s"), *(GetOwner()->GetName()));
@@ -73,6 +78,10 @@ void UGrabber::FindPhysicsHandleComponent() {
 void UGrabber::SetupInputComponent()
 {
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
+	if (!InputComponent) {
+		UE_LOG(LogTemp, Error, TEXT("InputComponent not found"))
+			return;
+	}
 	if (InputComponent) {///	Input Component found
 		//Bind the input axis
 		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
@@ -89,7 +98,9 @@ void UGrabber::SetupInputComponent()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
 	// if physics handle is attached
+	if (!PhysicHandle) { return; }
 	if (PhysicHandle->GrabbedComponent) {
 
 		// move the object we are handling	
@@ -100,7 +111,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 }
 
 const FHitResult UGrabber::GetFirstPhysicBodyInReach()
-{	
+{
 	/// Line-trace (AKA Ray-cast) out to reach distance  /// imagine superman laser eyes logging
 	FHitResult HitResult;
 	///Setup query parameter
@@ -118,7 +129,8 @@ const FHitResult UGrabber::GetFirstPhysicBodyInReach()
 	return HitResult;
 }
 
-FVector UGrabber::GetReachLineEnd() {
+FVector UGrabber::GetReachLineEnd()
+{
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotation;
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
@@ -129,7 +141,8 @@ FVector UGrabber::GetReachLineEnd() {
 	return PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
 }
 
-FVector UGrabber::GetReachLineStart() {
+FVector UGrabber::GetReachLineStart()
+{
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotation;
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
