@@ -24,6 +24,9 @@ void UOpenDoor::BeginPlay()
 	Super::BeginPlay();
 
 	Owner = GetOwner();
+	if (PressurePlate == nullptr) {
+		UE_LOG(LogTemp,Error,TEXT("%s missing PressurePlate"), * Owner->GetName())
+	}
 
 }
 
@@ -35,8 +38,8 @@ void UOpenDoor::OpenDoor() // Quick actions - Extract function
 	//FRotator NewRotation = FRotator(0.f, -60.f, 0.f);// FRotater Constructor Pass X,Y,Z as pitch , yaw and roll
 													 // pitch is x axis up and down, Yaw is ground left and right, Roll is z axis up and down
 													 //Set the door Rotation
-	Owner->SetActorRotation(FRotator(0.f, OpenAngle, 0.f));
-
+	// Owner->SetActorRotation(FRotator(0.f, OpenAngle, 0.f));
+	OnOpenRequest.Broadcast(); //set C++ events to be used in blueprints//Do rotation in blueprint in this case
 
 	//UE_LOG(LogTemp, Error, TEXT("%s"), Rotater.ToString());
 }
@@ -85,8 +88,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 float UOpenDoor::GetTotalMasssOfActorOnPlate()
 {
 	float TotalMass = 0.f;
-	if (!PressurePlate) { UE_LOG(LogTemp,Error,TEXT("Pressure Plate points to a null pointer"))
-							return TotalMass; }
+	if (!PressurePlate) {	return TotalMass; }
 	//find all overlapping actors
 	TArray<AActor*> OverlappingActors; //TArray is a type mean for elements of the same type, similar to the regular array, //int array[] is the same as TArray<int>
 	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
