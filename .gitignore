@@ -93,3 +93,9 @@ DerivedDataCache/*
 02_BuildingEscape/BuildingEscape/Saved/
 02_BuildingEscape/BuildingEscape/Binaries/Win64/BuildingEscapeEditor.target
 02_BuildingEscape/BuildingEscape/Binaries/Win64/UE4Editor.modules
+02_BuildingEscape/BuildingEscape/Binaries/HTML5/BuildingEscape.bc
+02_BuildingEscape/BuildingEscape/Binaries/HTML5/BuildingEscape.asm.js
+02_BuildingEscape/BuildingEscape/Binaries/HTML5/BuildingEscape.target
+02_BuildingEscape/BuildingEscape/Binaries/HTML5/BuildingEscape.js.symbols
+02_BuildingEscape/BuildingEscape/Binaries/HTML5/BuildingEscape.js.mem
+02_BuildingEscape/BuildingEscape/Binaries/HTML5/BuildingEscape.js
