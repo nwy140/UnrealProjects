@@ -15,9 +15,21 @@ void ATankPlayerController::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController not possesing a tank"));
 	}
 	else {
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController possesing: %s"), * (ControlledTank->GetName()));
+		UE_LOG(LogTemp, Warning, TEXT("PlayerController possesing: %s"), *(ControlledTank->GetName()));
 	}
 
 }
+void ATankPlayerController::Tick(float deltatime)
+{
+	Super::Tick(deltatime);
+	AimTowardsCrosshair();
+}
 
+void ATankPlayerController::AimTowardsCrosshair()
+{
+	if (!GetControlledTank) { return }
 
+	// GetWorldLocation if linetrace through crosshair			
+		//if hits the lanscape
+			// tell controlledtank to aim at this point
+}
