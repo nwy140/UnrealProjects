@@ -2,7 +2,7 @@
 
 
 #include "TankPlayerController.h"
-
+#include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 
 
@@ -57,9 +57,9 @@ void ATankPlayerController::AimTowardsCrosshair()
 {
 	if (!GetControlledTank()) { return; }
 	FVector HitLocation; //OUT parameter
-
+	
 	if (GetSightRayHitLocation(HitLocation)) { //Has "side-effect" , is going to line trace
-		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
 
 		//if hits the lanscape
 
@@ -70,7 +70,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 // GetWorldLocation of linetrace through crosshair	 , true if hit linescape		
 bool ATankPlayerController::GetSightRayHitLocation(FVector & OutHitLocation) const
 {
- #pragma region Find crosshair position
+#pragma region Find crosshair position
 	// Find the crosshair position
 	int32 ViewportSizeX, ViewportSizeY;
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
@@ -82,13 +82,34 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector & OutHitLocation) con
 #pragma region "De-project" the screen position of the crosshair to a world direction
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection)) {
-		UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *LookDirection.ToString()) // due to pythagoras theorem , the value, hypotamus is always one, therefore log Vectors does not appear more than 1 for Deprojecttoscreen	
+		// Line-trace alog that look direction, and see what we hit (up to max range)
+		GetLookVectorHitLocation(LookDirection, OutHitLocation);
+		//UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *LookDirection.ToString()) // due to pythagoras theorem , the value, hypotamus is always one, therefore log Vectors does not appear more than 1 for Deprojecttoscreen	
 	}
 #pragma endregion
-	// Line-trace alog that look direction, and see what we hit (up to max range)
-	OutHitLocation = FVector(1, 0, 1);
 	return true;
 }
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation) const
+{
+	FHitResult HitResult;
+	auto StartLocation = PlayerCameraManager->GetCameraLocation();
+	auto EndLocation = StartLocation + LookDirection * LineTraceRange;
+
+
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECollisionChannel::ECC_Visibility)// Visible means hit anything that you can see
+	) {
+		
+		//Set hit Location	
+		OutHitLocation = HitResult.Location;
+
+			return true;
+	}
+	else {
+		OutHitLocation = FVector(0, 0, 0); // just to make sure, although it is usually already 0 if linetrace hits nothing
+		return false; //Line trace failed
+	}
+}
+
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection)  const// bool because we want to know whether it works
 {
@@ -97,3 +118,12 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, CameraWorldLocation, LookDirection);
 
 }
+
+
+
+
+
+
+
+
+

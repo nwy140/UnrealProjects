@@ -43,6 +43,8 @@ private:
 	float CrossHairXLocation = 0.5;   /// crosshair 50% across screen
 	UPROPERTY(EditAnywhere)
 	float CrossHairYLocation = 0.33333; /// cross hair 1/9 across screen
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 100000; // cm to meters
 #pragma endregion
 
 #pragma region DeclarePointers
@@ -55,6 +57,7 @@ private:
 	void AimTowardsCrosshair();
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 	bool GetLookDirection(FVector2D ScreenLocation, FVector &LookDirection) const;
+	bool GetLookVectorHitLocation( FVector LookDirection , FVector& HitLocation) const;
 	//start the tank moving the barrel so that a shot would hit where the crosshair  intersects the world
 #pragma region EngineMethodsoverride
 	void BeginPlay() override;
