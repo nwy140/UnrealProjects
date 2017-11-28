@@ -54,6 +54,7 @@ private:
 	ATank* GetControlledTank() const;
 	void AimTowardsCrosshair();
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
+	bool GetLookDirection(FVector2D ScreenLocation, FVector &LookDirection) const;
 	//start the tank moving the barrel so that a shot would hit where the crosshair  intersects the world
 #pragma region EngineMethodsoverride
 	void BeginPlay() override;

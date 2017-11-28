@@ -70,18 +70,30 @@ void ATankPlayerController::AimTowardsCrosshair()
 // GetWorldLocation of linetrace through crosshair	 , true if hit linescape		
 bool ATankPlayerController::GetSightRayHitLocation(FVector & OutHitLocation) const
 {
-#pragma region Find crosshair position
+ #pragma region Find crosshair position
 	// Find the crosshair position
-
 	int32 ViewportSizeX, ViewportSizeY;
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
 
-	auto ScreenLocation = FVector2D(ViewportSizeX*CrossHairXLocation, ViewportSizeY* CrossHairYLocation); /// auto is a new C++11 type that automatically sets the correct class type for you
+	FVector2D ScreenLocation = FVector2D(ViewportSizeX*CrossHairXLocation, ViewportSizeY* CrossHairYLocation); /// auto is a new C++11 type that automatically sets the correct class type for you
 	//UE_LOG(LogTemp, Warning, TEXT("ScreenLocation: %s"), *ScreenLocation.ToString())
 #pragma endregion
 
-	// "De-project" the screen position of the crosshair to a world direction
-		// Line-trace alog that look direction, and see what we hit (up to max range)
-		OutHitLocation = FVector(1, 0, 1);
+#pragma region "De-project" the screen position of the crosshair to a world direction
+	FVector LookDirection;
+	if (GetLookDirection(ScreenLocation, LookDirection)) {
+		UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *LookDirection.ToString()) // due to pythagoras theorem , the value, hypotamus is always one, therefore log Vectors does not appear more than 1 for Deprojecttoscreen	
+	}
+#pragma endregion
+	// Line-trace alog that look direction, and see what we hit (up to max range)
+	OutHitLocation = FVector(1, 0, 1);
 	return true;
+}
+
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection)  const// bool because we want to know whether it works
+{
+	// "De-project" the screen position of the crosshair to a world direction
+	FVector CameraWorldLocation;
+	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, CameraWorldLocation, LookDirection);
+
 }
