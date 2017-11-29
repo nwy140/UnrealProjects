@@ -25,6 +25,11 @@ void ATank::Tick(float DeltaTime)
 
 }
 
+void ATank::AimAt(FVector HitLocation, FString OurTankname)
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s aims at HitLocation: %s"),*OurTankname, *HitLocation.ToString()); //UE4.18 bug, all tanks have same name in 4.18 's worldoutliner regardless of AI or player possesion
+}
+
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {

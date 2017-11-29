@@ -37,6 +37,22 @@ void ATankAIController::BeginPlay()
 }
 
 
+void ATankAIController::Tick(float deltatime)
+{
+	Super::Tick(deltatime);
+	if (GetPlayerTank()) { // always check for null
+		
+		//Move Towards Player
+
+		//Aim at Player
+		GetPlayerTank()->AimAt(GetPlayerTank()->GetActorLocation() , GetAIControlledTank()->GetName());
+ 
+		//Fire if ready
+
+
+	}
+}
+
 
 ATank* ATankAIController::GetAIControlledTank() const
 
