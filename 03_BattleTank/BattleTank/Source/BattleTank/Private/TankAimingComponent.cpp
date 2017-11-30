@@ -40,10 +40,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UTankAimingComponent::AimAt(FVector HitLocation)
+void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	auto  OurTankname = GetOwner()->GetName();
-	auto BarrelLocation = Barrel->GetComponentLocation().ToString();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *OurTankname, *HitLocation.ToString(), *BarrelLocation);
-	//UE_LOG(LogTemp, Warning, TEXT("%s aims at HitLocation: %s"), *OurTankname, *HitLocation.ToString()); //UE4.18 bug, all tanks have same name in 4.18 's worldoutliner regardless of AI or player possesion
+	UE_LOG(LogTemp,Warning,TEXT("Firing at %f"), LaunchSpeed)
+	//auto  OurTankname = GetOwner()->GetName();
+	//auto BarrelLocation = Barrel->GetComponentLocation().ToString();
+	//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *OurTankname, *HitLocation.ToString(), *BarrelLocation);
+	
 }
