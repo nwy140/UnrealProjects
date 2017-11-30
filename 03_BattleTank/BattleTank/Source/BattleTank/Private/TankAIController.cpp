@@ -5,7 +5,7 @@
 #include "TankAIController.h"
 
 #include "GameFramework/Pawn.h"
-
+#include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 
 //Tank BP 's AIClass has been set this TankAiController class, so any tank spawned that is not possesed by player will use this class
@@ -43,12 +43,12 @@ void ATankAIController::Tick(float deltatime)
 	if (GetPlayerTank()) { // always check for null
 		
 		//Move Towards Player
-
+			
 		//Aim at Player
-		GetPlayerTank()->AimAt(GetPlayerTank()->GetActorLocation() , GetAIControlledTank()->GetName());
- 
+	GetPlayerTank()->AimAt(GetPlayerTank()->GetActorLocation() );
+									// Use FindComponentByClass, Don't use GetComponentByClass
 		//Fire if ready
-
+		
 
 	}
 }

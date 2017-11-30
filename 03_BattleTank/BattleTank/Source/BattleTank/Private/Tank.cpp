@@ -9,6 +9,8 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	//No need to protect points as added at construction
+	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component")); // This adds aiming component to Tank_BP Pawn object
 }
 
 // Called when the game starts or when spawned
@@ -25,10 +27,7 @@ void ATank::Tick(float DeltaTime)
 
 }
 
-void ATank::AimAt(FVector HitLocation, FString OurTankname)
-{
-	UE_LOG(LogTemp, Warning, TEXT("%s aims at HitLocation: %s"),*OurTankname, *HitLocation.ToString()); //UE4.18 bug, all tanks have same name in 4.18 's worldoutliner regardless of AI or player possesion
-}
+
 
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -37,3 +36,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void ATank::AimAt(FVector HitLocation)
+{
+	TankAimingComponent->AimAt(HitLocation);
+}

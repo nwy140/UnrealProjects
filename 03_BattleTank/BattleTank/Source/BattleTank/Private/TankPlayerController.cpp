@@ -59,7 +59,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector HitLocation; //OUT parameter
 	
 	if (GetSightRayHitLocation(HitLocation)) { //Has "side-effect" , is going to line trace
-		GetControlledTank()->AimAt(HitLocation , GetControlledTank()->GetName());//Refering to Tank Pawn, regardless possed by player or AI , so pass name from subclass instead, 
+		GetControlledTank()->AimAt(HitLocation);//Refering to Tank Pawn, regardless possed by player or AI , so pass name from subclass instead, 
 		//if hits the lanscape
 
 		// TODO: Tell controlledtank to aim at this point
