@@ -22,6 +22,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	void AimAt(FVector HitLocation);
 
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+	///UFunction Blueprint callable used so that function can be called in blueprint
 
 private:
 
@@ -33,6 +36,6 @@ private:
 
 
 
-	
-	
+
+
 };

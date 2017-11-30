@@ -2,6 +2,7 @@
 
 #include "TankAimingComponent.h"
 #include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
 
 
 // Sets default values for this component's properties
@@ -12,6 +13,12 @@ UTankAimingComponent::UTankAimingComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+}
+
+void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+{
+	Barrel = BarrelToSet;
+
 }
 
 
@@ -35,6 +42,8 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
-	FString OurTankname = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s aims at HitLocation: %s"), *OurTankname, *HitLocation.ToString()); //UE4.18 bug, all tanks have same name in 4.18 's worldoutliner regardless of AI or player possesion
+	auto  OurTankname = GetOwner()->GetName();
+	auto BarrelLocation = Barrel->GetComponentLocation().ToString();
+	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *OurTankname, *HitLocation.ToString(), *BarrelLocation);
+	//UE_LOG(LogTemp, Warning, TEXT("%s aims at HitLocation: %s"), *OurTankname, *HitLocation.ToString()); //UE4.18 bug, all tanks have same name in 4.18 's worldoutliner regardless of AI or player possesion
 }

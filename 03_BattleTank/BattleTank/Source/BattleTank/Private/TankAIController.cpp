@@ -45,7 +45,7 @@ void ATankAIController::Tick(float deltatime)
 		//Move Towards Player
 			
 		//Aim at Player
-	GetPlayerTank()->AimAt(GetPlayerTank()->GetActorLocation() );
+	GetAIControlledTank()->AimAt(GetPlayerTank()->GetActorLocation() );
 									// Use FindComponentByClass, Don't use GetComponentByClass
 		//Fire if ready
 		
