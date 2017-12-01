@@ -4,11 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/GameplayStatics.h"
+
 #include "TankAimingComponent.generated.h"
 
-class UTankBarrel; //Forward Declaration , doing this , don't need to create a chain of dependencies so don't need to keep including header files
+//Forward declaration
+class UTankBarrel;
 
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+//Holds barrel's properties and Elevate method
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent)) // copied this line to TankBarrel 
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -26,5 +29,5 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	void MoveBarrelTowards(FVector AimDirection);
 
-
+	
 };

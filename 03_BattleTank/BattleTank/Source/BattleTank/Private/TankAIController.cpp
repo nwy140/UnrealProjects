@@ -4,6 +4,7 @@
 
 #include "TankAIController.h"
 
+#include "GameFramework/Pawn.h"
 #include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 

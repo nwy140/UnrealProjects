@@ -8,7 +8,7 @@
 #include "TankAimingComponent.h"
 #include "Tank.generated.h"
 
-class UTankBarrel;
+class UTankBarrel; //Foward Declaration , causes blueprint to crash , therefore compilation errors
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn

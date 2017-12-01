@@ -2,25 +2,12 @@
 
 #include "TankBarrel.h"
 
-
-#pragma region DefineMethods
-///Place methods for initilization from class
-void UTankBarrel::Elevate(float DegreesPerSecond)
+void UTankBarrel::Elevate(float DegressPerSecond)
 {
 	// Move the barrel
-
 	// Given a max elevation speed and the frame time
-	UE_LOG(LogTemp, Warning, TEXT("Barrel->Elevate called at speed %f") , DegreesPerSecond)
+	UE_LOG(LogTemp, Warning, TEXT("Barrel-Elevate() called at speed %f"),DegressPerSecond)
+
 }
 
-
-#pragma region DefindBindActionMethods
-///Place methods regarding binding actions here
-#pragma endregion 
-
-#pragma region DefineComponentMethods
-///Place methods regarding accessing Components here
-#pragma endregion
-
-#pragma endregion
 
