@@ -10,7 +10,7 @@
  * 
  */
 
-UCLASS(meta = (BlueprintSpawnableComponent))
+UCLASS(meta = (BlueprintSpawnableComponent) , hidecategories = ("Collision")) //This makes TankBarrel class show up as  custom component in  blueprint // Hide Categories hide Collision in Blueprint TankBarrel custom component
 class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
 {
 	GENERATED_BODY()
@@ -18,7 +18,12 @@ class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
 public:
 	void Elevate(float DegreesPerSecond);
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Setup)
 	float MaxDegreesPerSecond = 20;
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	float MaxElevationPerSecond = 40; 
+	UPROPERTY(EditAnywhere, Category = Setup)
+	float MinElevationDegrees = 0; 
 	
 };
