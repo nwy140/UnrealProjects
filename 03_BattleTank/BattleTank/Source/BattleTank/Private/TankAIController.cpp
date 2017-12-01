@@ -6,6 +6,7 @@
 
 #include "GameFramework/Pawn.h"
 #include "Components/PrimitiveComponent.h"
+#include "Tank.h"
 #include "Engine/World.h"
 
 //Tank BP 's AIClass has been set this TankAiController class, so any tank spawned that is not possesed by player will use this class

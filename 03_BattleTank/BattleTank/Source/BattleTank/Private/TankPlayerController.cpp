@@ -4,6 +4,7 @@
 #include "TankPlayerController.h"
 #include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
+#include "Tank.h"
 
 
 ATank* ATankPlayerController::GetControlledTank() const

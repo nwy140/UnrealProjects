@@ -10,11 +10,8 @@
 
 #include "AIController.h"
 
-#include "Tank.h"
 
 #include "TankAIController.generated.h"
-
-
 
 /**
 
@@ -22,8 +19,10 @@
 
 */
 
-UCLASS()
+//Forward declaration
+class ATank;
 
+UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 
 {

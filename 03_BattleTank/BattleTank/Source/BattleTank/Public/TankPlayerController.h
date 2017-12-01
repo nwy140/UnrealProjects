@@ -12,7 +12,6 @@
 
 
 
-#include "Tank.h"
 
 #include "TankPlayerController.generated.h"
 
@@ -23,6 +22,8 @@
 *
 
 */
+
+class ATank;
 
 UCLASS()
 

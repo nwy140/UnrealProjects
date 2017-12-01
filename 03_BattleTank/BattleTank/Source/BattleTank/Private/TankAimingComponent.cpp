@@ -31,7 +31,10 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		StartLocation,
 		HitLocation,
 		LaunchSpeed,
-		ESuggestProjVelocityTraceOption::DoNotTrace
+		false,
+		0,
+		0,
+		ESuggestProjVelocityTraceOption::DoNotTrace //Commenting this out cause bugs// Passing parameters even though default will be set if you don't pass may solve bugs with whether each frame found solution or not
 	);
 	if (bHaveAimSolution)
 	{
