@@ -27,7 +27,8 @@ public:
 	///UFunction Blueprint callable used so that function can be called in blueprint
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetTurretReference(UTankTurret* TurretToSet);
-
+	UFUNCTION(BlueprintCallable, Category = Firing)
+		void Fire();
 private:
 
 	// Called when the game starts or when spawned
@@ -36,6 +37,8 @@ private:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000.f; //TODO: FInd Senseible default

@@ -13,9 +13,6 @@ void UTankBarrel::Elevate(float RelativeSpeed)
 	//Clamp limits values of a variable between a min and max value, syntax is FMath::Clamp because it is a static method
 	SetRelativeRotation(FRotator(Elevation, 0, 0)); //if has no hitresult, rotation might go back to 0
 
-	float Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f Barrel-Elevate() called at speed %f"), Time, RelativeSpeed)
-
 }
 
 
