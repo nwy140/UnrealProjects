@@ -9,6 +9,7 @@
 
 class UTankAimingComponent;
 class UTankBarrel; //Foward Declaration , causes blueprint to crash , therefore compilation errors
+class AProjectile;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -43,5 +44,13 @@ private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000.f; //TODO: FInd Senseible default
 	
+	UPROPERTY(EditAnywhere, Category = Setup)
+		TSubclassOf<AProjectile> ProjectileBlueprint; // this allows you to select bo or cpp class AProjectile in Tank_BP
+	//UClass * ProjectileBlueprint; // Alternative use Tchar	, refer to unreal docs // this allows you to select projectile at Tank blueprints details at setup category  
+									//UClass * Allows you to choose absolutely anything
+										// for some reason it crashed so lets use TSubclass instead
+	
+	// Local barrel reference for spawning projectile
+	UTankBarrel* Barrel = nullptr;
 
 };
