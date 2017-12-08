@@ -21,7 +21,7 @@ void ATankAIController::BeginPlay()
 
 	//auto AIControlledTank = GetAIControlledTank();
 
-	auto PlayerTank = GetPlayerTank();
+	/*auto PlayerTank = GetPlayerTank();
 
 	if (!PlayerTank) {
 
@@ -34,27 +34,30 @@ void ATankAIController::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("AIController found player: %s"), *(PlayerTank->GetName())) // Do not use getowner, because this class is not placed as a component for an object , so GetOwner points to null which causes a crash
 
 	}																									//use GetPawn instead or use GetAiControlledTank which calls Cast  
-
+	*/
 }
 
 
 void ATankAIController::Tick(float deltatime)
 {
 	Super::Tick(deltatime);
-	if (GetPlayerTank()) { // always check for null
+	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	auto ControlledTank = Cast<ATank>(GetPawn());
+
+	if (PlayerTank) { // always check for null
 		
 		//Move Towards Player
 			
 		//Aim at Player
-	GetAIControlledTank()->AimAt(GetPlayerTank()->GetActorLocation() );
+	ControlledTank->AimAt(PlayerTank->GetActorLocation() );
 									// Use FindComponentByClass, Don't use GetComponentByClass
-		//Fire if ready
-		
+		//TODO : Fire if ready , don't fire every frame
+	ControlledTank->Fire();
 
 	}
 }
 
-
+/*
 ATank* ATankAIController::GetAIControlledTank() const
 
 {
@@ -76,3 +79,4 @@ ATank* ATankAIController::GetPlayerTank() const
 	return Cast<ATank>(PlayerPawn);
 
 }
+*/
