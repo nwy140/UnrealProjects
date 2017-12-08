@@ -40,11 +40,11 @@ public:
 
 private:
 #pragma region DeclareVariables 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5;   /// crosshair 50% across screen
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairYLocation = 0.33333; /// cross hair 1/9 across screen
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 100000; // cm to meters
 #pragma endregion
 
