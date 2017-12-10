@@ -10,6 +10,7 @@
 class UTankAimingComponent;
 class UTankBarrel; //Foward Declaration , causes blueprint to crash , therefore compilation errors
 class AProjectile;
+class UTankMovementComponent;
 
 
 UCLASS()
@@ -18,6 +19,7 @@ class BATTLETANK_API ATank : public APawn
 	GENERATED_BODY()
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
+	UTankMovementComponent* TankMovementComponent = nullptr;
 public:
 	// Sets default values for this pawn's properties
 	ATank();
