@@ -11,6 +11,7 @@ class UTankAimingComponent;
 class UTankBarrel; //Foward Declaration , causes blueprint to crash , therefore compilation errors
 class AProjectile;
 
+
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {

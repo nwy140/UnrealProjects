@@ -23,5 +23,4 @@ private:
 	//float MaxTurnDegrees = 360;
 	//float MinTurnDegrees = 0;
 	
-	
 };

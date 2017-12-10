@@ -32,8 +32,7 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::LaunchProjectile(float speed)
 {
-	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f Tank Firing at %f"), Time , speed);
+
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * speed);//This adds velocity to Projectile // ForwardVector is barrel's forward vector hopefully		
 	ProjectileMovement->Activate();	
 }
