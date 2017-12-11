@@ -19,7 +19,10 @@ class BATTLETANK_API ATank : public APawn
 	GENERATED_BODY()
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
-	UTankMovementComponent* TankMovementComponent = nullptr;
+	
+	UPROPERTY (BlueprintReadOnly)
+	UTankMovementComponent* TankMovementComponent = nullptr; //BlueprintReadOnly allows you to access and target the Movement Component in Blueprints ,but to access the methods inside the component, you got to UFUNFCTION (BlueprintCallable) the methods in Movement Components
+
 public:
 	// Sets default values for this pawn's properties
 	ATank();

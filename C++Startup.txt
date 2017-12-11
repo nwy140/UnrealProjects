@@ -45,3 +45,9 @@ private: //Members can be accessed only inside class
 #pragma endregion
 
 #pragma endregion
+
+#pragma region UnrealMacros
+UClass 	  (  //meta = BlueprintSpawnable , // hidecategories = ("Collision"))
+UPROPERTY (  //EditAnywhere //EditDefaultsOnly //BlueprintAssignable //BlueprintReadOnly, //Category = Setup 
+UFUNCTION (  //BlueprintCallable 
+#pragma endregion
