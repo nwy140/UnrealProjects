@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// CopyRight SilentWolfStudios SDN BHD
 
 #include "TankMovementComponent.h"
 #include "TankTrack.h"
@@ -15,13 +15,14 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 
 	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal(); //GetForwardActor gets local object forward red axis
 	auto AIForwardIntention = MoveVelocity.GetSafeNormal(); //GetSafeNormal() gets normal of MoveVelocity without changing MoveVelocity
-	//UE_LOG(LogTemp, Warning, TEXT("%s vectoring to %s"), *TankName ,  )
 
 	auto ForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);
 	IntendMoveFoward(ForwardThrow);
 
 	auto RightThrow = FVector::CrossProduct(TankForward, AIForwardIntention).Z;
 	IntendMoveRight(RightThrow);
+
+
 }
 
 void UTankMovementComponent::IntendMoveFoward(float Throw)
