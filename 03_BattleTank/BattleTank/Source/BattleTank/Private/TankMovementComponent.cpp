@@ -31,4 +31,11 @@ void UTankMovementComponent::IntendMoveRight(float Throw)
 	//TODO Prevent double speed due to dual control	
 }
 
+void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
+{
+	// No need to call SUper as we're replacing the functionality 
+	UE_LOG(LogTemp, Warning, TEXT("%s vectoring to %s"), *GetOwner()->GetName(), *MoveVelocity.ToString())
+			
+}
+
 

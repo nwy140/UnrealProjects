@@ -47,6 +47,7 @@ void ATankAIController::Tick(float deltatime)
 	if (PlayerTank) { // always check for null
 		
 		//Move Towards Player
+		MoveToActor(PlayerTank, AcceptanceRadius); //TODO Check radius is in centimetres
 			
 		//Aim at Player
 	ControlledTank->AimAt(PlayerTank->GetActorLocation() );
