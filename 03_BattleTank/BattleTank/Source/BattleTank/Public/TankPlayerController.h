@@ -36,7 +36,9 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 public:
 
 
-
+protected: 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	ATank* GetControlledTank() const; //protected so Blueprints can edit and access PlayerTank
 
 private:
 #pragma region DeclareVariables 
@@ -44,7 +46,7 @@ private:
 	float CrossHairXLocation = 0.5;   /// crosshair 50% across screen
 	UPROPERTY(EditDefaultsOnly)
 	float CrossHairYLocation = 0.33333; /// cross hair 1/9 across screen
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly)	
 	float LineTraceRange = 100000; // cm to meters
 #pragma endregion
 
@@ -54,7 +56,6 @@ private:
 #pragma endregion
 
 #pragma region DeclareMethods
-	ATank* GetControlledTank() const;
 	void AimTowardsCrosshair();
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 	bool GetLookDirection(FVector2D ScreenLocation, FVector &LookDirection) const;

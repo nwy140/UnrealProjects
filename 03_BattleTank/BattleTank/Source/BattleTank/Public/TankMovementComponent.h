@@ -29,7 +29,6 @@ public:
 
 	//TODO check best protection
 
-
 private:
 	// Called from pathfinding logic by the AI controllers
 	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
