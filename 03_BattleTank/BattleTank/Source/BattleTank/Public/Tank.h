@@ -30,12 +30,8 @@ public:
 
 	void AimAt(FVector HitLocation);
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetBarrelReference(UTankBarrel* BarrelToSet);
-	///UFunction Blueprint callable used so that function can be called in blueprint
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetTurretReference(UTankTurret* TurretToSet);
-	UFUNCTION(BlueprintCallable, Category = Firing)
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 		void Fire();
 private:
 
@@ -43,26 +39,23 @@ private:
 	virtual void BeginPlay() override;
 
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		TSubclassOf<AProjectile> ProjectileBlueprint; // this allows you to select bo or cpp class AProjectile in Tank_BP
 	//UClass * ProjectileBlueprint; // Alternative use Tchar	, refer to unreal docs // this allows you to select projectile at Tank blueprints details at setup category  
 									//UClass * Allows you to choose absolutely anything
 										// for some reason it crashed so lets use TSubclass instead
 	
 	// Local barrel reference for spawning projectile
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000.f; //TODO: FInd Senseible default
 	
-	UPROPERTY(EditDefaultsOnly, Category=Firing ) //Edit defaults only means you can only edit the default value for all tanks , each tank will not have seperate values
+	UPROPERTY(EditDefaultsOnly, Category="Firing" ) //Edit defaults only means you can only edit the default value for all tanks , each tank will not have seperate values
 	float ReloadTimeInSeconds = 3;
 
 
-	UTankBarrel* Barrel = nullptr;
+	UTankBarrel* Barrel = nullptr; //TODO : Remove
 
 
 	double LastFireTime = 0;
