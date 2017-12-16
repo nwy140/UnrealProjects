@@ -5,7 +5,7 @@
 #include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 #include "Tank.h"
-
+#include "TankAimingComponent.h"
 
 ATank* ATankPlayerController::GetControlledTank() const
 
@@ -22,22 +22,13 @@ void ATankPlayerController::BeginPlay()
 {
 
 	Super::BeginPlay(); // makes sure BeginPlay on super class is called
-
-	auto ControlledTank = GetControlledTank();
-
-	/*if (!ControlledTank) {
-
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController not possesing a tank"));
-
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComponent) {
+		FoundAimingComponent(AimingComponent);
 	}
-
 	else {
-
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController possesing: %s"), *(ControlledTank->GetName()));
-
-	}*/
-
-
+		UE_LOG(LogTemp, Warning, TEXT("Player controller can't find Aiming Component"))
+	}
 
 }
 
@@ -58,7 +49,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 {
 	if (!GetControlledTank()) { return; }
 	FVector HitLocation; //OUT parameter
-	
+
 	if (GetSightRayHitLocation(HitLocation)) { //Has "side-effect" , is going to line trace
 		GetControlledTank()->AimAt(HitLocation);//Refering to Tank Pawn, regardless possed by player or AI , so pass name from subclass instead, 
 		//if hits the lanscape
@@ -97,12 +88,12 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 
 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECollisionChannel::ECC_Visibility)// Visible means hit anything that you can see
-	) {
-		
+		) {
+
 		//Set hit Location	
 		OutHitLocation = HitResult.Location;
 
-			return true;
+		return true;
 	}
 	else {
 		OutHitLocation = FVector(0, 0, 0); // just to make sure, although it is usually already 0 if linetrace hits nothing
