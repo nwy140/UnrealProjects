@@ -9,15 +9,20 @@
 // Sets default values
 ATank::ATank()
 {
-	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this pawn to		 call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s Donkey: Tank C++ Construct"), *GetName() ); // constructor only calls for first tank spawns , if it is already spawned, it wont be called
 }
 
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
-	Super::BeginPlay();
+	Super::BeginPlay(); //Need for BP to run! //if you don't call super , Blueprints will  not call the entire BeginPlay method
+	auto TankName = GetName(); //only when you call beginplay , constructor will be called before beginplay, otherwise it will only call once
+	UE_LOG(LogTemp, Warning, TEXT("%s Donkey: Tank C++ BeginPlay"), *GetName()); // constructor only calls for first tank spawns
+
 }
 
 void ATank::AimAt(FVector HitLocation)
