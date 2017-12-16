@@ -27,7 +27,7 @@ void ATank::BeginPlay()
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
@@ -37,7 +37,8 @@ void ATank::Fire()
 {
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds; //difference in time between currentime and lastfiretime more than reloadtime 
 	
-	if (Barrel && isReloaded) {
+	if (!ensure(Barrel)) { return; }
+	if ( isReloaded) {
 	// spawn a projectile at the socket location at the barrel
 	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile"))); //You must include Projectile.h , as well as UTankBarrel.h
 	Projectile->LaunchProjectile(LaunchSpeed);

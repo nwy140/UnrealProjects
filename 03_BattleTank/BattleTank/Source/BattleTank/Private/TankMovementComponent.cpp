@@ -27,7 +27,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 
 void UTankMovementComponent::IntendMoveFoward(float Throw)
 {
-	if (!LeftTrack || !RightTrack) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 
 	//auto Time = GetWorld()->GetTimeSeconds();
 	LeftTrack->SetThrottle(Throw);
@@ -38,7 +38,7 @@ void UTankMovementComponent::IntendMoveFoward(float Throw)
 
 void UTankMovementComponent::IntendMoveRight(float Throw)
 {
-	if (!LeftTrack || !RightTrack) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 
 	//auto Time = GetWorld()->GetTimeSeconds();
 	LeftTrack->SetThrottle(Throw);

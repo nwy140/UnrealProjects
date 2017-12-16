@@ -23,7 +23,7 @@ void ATankPlayerController::BeginPlay()
 
 	Super::BeginPlay(); // makes sure BeginPlay on super class is called
 	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent) {
+	if (ensure(AimingComponent)) {
 		FoundAimingComponent(AimingComponent);
 	}
 	else {
@@ -47,7 +47,7 @@ void ATankPlayerController::Tick(float deltatime)
 void ATankPlayerController::AimTowardsCrosshair()
 
 {
-	if (!GetControlledTank()) { return; }
+	if (!ensure(GetControlledTank())) { return; }
 	FVector HitLocation; //OUT parameter
 
 	if (GetSightRayHitLocation(HitLocation)) { //Has "side-effect" , is going to line trace
