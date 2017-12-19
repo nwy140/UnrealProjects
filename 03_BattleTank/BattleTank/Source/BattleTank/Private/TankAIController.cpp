@@ -6,8 +6,9 @@
 
 #include "GameFramework/Pawn.h"
 #include "Components/PrimitiveComponent.h"
-#include "Tank.h"
 #include "Engine/World.h"
+#include "Tank.h"
+//Depends on MovementComponent via AI pathfinding
 
 //Tank BP 's AIClass has been set this TankAiController class, so any tank spawned that is not possesed by player will use this class
 
@@ -44,7 +45,8 @@ void ATankAIController::Tick(float deltatime)
 	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	auto ControlledTank = Cast<ATank>(GetPawn());
 
-	if (ensure(PlayerTank))  { // always check for null
+	if (ensure(PlayerTank)) 
+	{ // always check for null
 		
 		//Move Towards Player
 		MoveToActor(PlayerTank, AcceptanceRadius); //TODO Check radius is in centimetres

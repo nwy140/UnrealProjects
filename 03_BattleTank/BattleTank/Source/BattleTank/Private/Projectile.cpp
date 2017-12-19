@@ -2,7 +2,7 @@
 
 #include "Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "TankAimingComponent.h" //Always remember to use #include
+//#include "TankAimingComponent.h" //Always remember to use #include
 
 
 // Sets default values
