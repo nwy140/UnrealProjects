@@ -43,11 +43,11 @@ private:
 	//UClass * ProjectileBlueprint; // Alternative use Tchar	, refer to unreal docs // this allows you to select projectile at Tank blueprints details at setup category  
 									//UClass * Allows you to choose absolutely anything
 										// for some reason it crashed so lets use TSubclass instead
-	
-	// Local barrel reference for spawning projectile
+
+	//TODO remove once firing is moved to AimingComponent
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float LaunchSpeed = 4000.f; //TODO: FInd Senseible default
-	
+	float LaunchSpeed = 4000.f;
+
 	UPROPERTY(EditDefaultsOnly, Category="Firing" ) //Edit defaults only means you can only edit the default value for all tanks , each tank will not have seperate values
 	float ReloadTimeInSeconds = 3;
 

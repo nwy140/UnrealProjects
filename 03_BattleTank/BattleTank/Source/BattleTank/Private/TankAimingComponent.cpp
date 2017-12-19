@@ -44,10 +44,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	}//auto  OurTankname = GetOwner()->GetName();
 	//auto BarrelLocation = Barrel->GetComponentLocation().ToString();
 	//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *OurTankname, *HitLocation.ToString(), *BarrelLocation);
-	else {
-		float Time = GetWorld()->GetTimeSeconds();
-		//UE_LOG(LogTemp, Warning, TEXT("%f : No aim solve found"), Time)
-	}
+	
 }
 void UTankAimingComponent::Initialize(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
 {
@@ -57,6 +54,8 @@ void UTankAimingComponent::Initialize(UTankBarrel * BarrelToSet, UTankTurret * T
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	if (!ensure(Barrel) || !ensure(Turret) ) { return; }
+	UE_LOG(LogTemp, Warning, TEXT("I'm here"))
+
 	// Work out difference between current barrel rotation , and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation(); //GetForwardVector Gets direction
 	auto AimAsRotator = AimDirection.Rotation();

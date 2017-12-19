@@ -23,12 +23,8 @@ void ATankPlayerController::BeginPlay()
 
 	Super::BeginPlay(); // makes sure BeginPlay on super class is called
 	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (ensure(AimingComponent)) {
-		FoundAimingComponent(AimingComponent);
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("Player controller can't find Aiming Component"))
-	}
+	if (!ensure(AimingComponent)) { return; }
+	FoundAimingComponent(AimingComponent);
 
 }
 
