@@ -7,7 +7,6 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-class UTankAimingComponent;
 class UTankBarrel; //Foward Declaration , causes blueprint to crash , therefore compilation errors
 class AProjectile;
 
@@ -17,15 +16,12 @@ class BATTLETANK_API ATank : public APawn
 {
 	GENERATED_BODY()
 protected:
-	UPROPERTY(BlueprintReadOnly)
-	UTankAimingComponent* TankAimingComponent = nullptr;
 	
 	
 public:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	void AimAt(FVector HitLocation);
 
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
@@ -44,9 +40,7 @@ private:
 									//UClass * Allows you to choose absolutely anything
 										// for some reason it crashed so lets use TSubclass instead
 
-	//TODO remove once firing is moved to AimingComponent
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float LaunchSpeed = 4000.f;
+	
 
 	UPROPERTY(EditDefaultsOnly, Category="Firing" ) //Edit defaults only means you can only edit the default value for all tanks , each tank will not have seperate values
 	float ReloadTimeInSeconds = 3;
@@ -56,5 +50,9 @@ private:
 
 
 	double LastFireTime = 0;
+
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		float LaunchSpeed = 4000.f;
 
 };

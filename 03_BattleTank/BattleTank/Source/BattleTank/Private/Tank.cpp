@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
-#include "TankAimingComponent.h"
 #include "TankMovementComponent.h"
 #include "TankBarrel.h"
 #include "Projectile.h"	
@@ -19,17 +18,8 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay(); //Need for BP to run! //if you don't call super , Blueprints will  not call the entire BeginPlay method
 
-	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
-void ATank::AimAt(FVector HitLocation)
-{
-	if (!ensure(TankAimingComponent)) { return; }
-	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
-	auto TankName = GetName(); //only when you call beginplay , constructor will be called before beginplay, otherwise it will only call once
-	UE_LOG(LogTemp, Warning, TEXT("I'm here")	)
-
-}
 
 
 

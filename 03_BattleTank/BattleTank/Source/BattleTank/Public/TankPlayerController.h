@@ -23,7 +23,6 @@
 
 */
 
-class ATank;
 class UTankAimingComponent;
 
 UCLASS()
@@ -38,8 +37,6 @@ public:
 
 
 protected: 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const; //protected so Blueprints can edit and access PlayerTank
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void FoundAimingComponent(UTankAimingComponent* AimCompRef); //Since this is blueprint implementable, you don't need to implement/define this in cpp file, you can just implement it on blueprints

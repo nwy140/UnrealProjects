@@ -4,16 +4,9 @@
 #include "TankPlayerController.h"
 #include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
-#include "Tank.h"
 #include "TankAimingComponent.h"
 
-ATank* ATankPlayerController::GetControlledTank() const
 
-{
-
-	return   Cast<ATank>(GetPawn());  // casting allows you to access members (methods and attributes) of ATank Class
-
-}
 
 
 
@@ -22,7 +15,7 @@ void ATankPlayerController::BeginPlay()
 {
 
 	Super::BeginPlay(); // makes sure BeginPlay on super class is called
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	FoundAimingComponent(AimingComponent);
 
@@ -43,11 +36,13 @@ void ATankPlayerController::Tick(float deltatime)
 void ATankPlayerController::AimTowardsCrosshair()
 
 {
-	if (!ensure(GetControlledTank())) { return; }
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
+
 	FVector HitLocation; //OUT parameter
 
 	if (GetSightRayHitLocation(HitLocation)) { //Has "side-effect" , is going to line trace
-		GetControlledTank()->AimAt(HitLocation);//Refering to Tank Pawn, regardless possed by player or AI , so pass name from subclass instead, 
+		AimingComponent->AimAt(HitLocation);//Refering to Tank Pawn, regardless possed by player or AI , so pass name from subclass instead, 
 		//if hits the lanscape
 
 		// TODO: Tell controlledtank to aim at this point
