@@ -16,6 +16,22 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
+void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
+{
+	UE_LOG(LogTemp,Warning,TEXT("Ticking"))
+}
+
+void UTankAimingComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	LastFireTime = FPlatformTime::Seconds();
+	if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds) //difference in time between currentime and lastfiretime more than reloadtime 
+	{
+		FiringState = EFiringState::Reloading;
+	}
+	//TODO: Handle Lock State
+}
+
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
@@ -68,10 +84,10 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::Fire()
 {
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds; //difference in time between currentime and lastfiretime more than reloadtime 
 	
-	if (!ensure(Barrel && ProjectileBlueprint) ) { return; }
-	if (isReloaded) {
+	if (FiringState!=EFiringState::Reloading) {
+		if (!ensure(Barrel)) { return; }
+		if (!ensure(ProjectileBlueprint)) { return; }
 		// spawn a projectile at the socket location at the barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile"))); //You must include Projectile.h , as well as UTankBarrel.h
 		Projectile->LaunchProjectile(LaunchSpeed);

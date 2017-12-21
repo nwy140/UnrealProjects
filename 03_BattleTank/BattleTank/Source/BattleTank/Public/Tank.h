@@ -18,7 +18,7 @@ protected:
 public:
 	// Sets default values for this pawn's properties
 	ATank();
-
+	
 
 private:
 

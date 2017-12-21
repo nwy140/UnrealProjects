@@ -28,7 +28,6 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 
 public:
 	// Sets default values for this component's properties
-	UTankAimingComponent();
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 	void AimAt(FVector HitLocation);
 
@@ -40,9 +39,16 @@ public:
 	void Fire();
 protected:
 	UPROPERTY(BlueprintReadOnly , Category = "State" )
-	EFiringState FiringState = EFiringState::Aiming;
+	EFiringState FiringState = EFiringState::Reloading;
 
 private:
+	UTankAimingComponent();
+
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	//Tick Component method will be used if you are using an ActorComponent, Tick will be used if you are an Actor
+
+	virtual void BeginPlay() override;
+
 	void MoveBarrelTowards(FVector AimDirection);
 
 	UTankBarrel* Barrel = nullptr;
