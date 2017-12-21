@@ -37,7 +37,6 @@ void ATankAIController::Tick(float deltatime)
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 	// Use FindComponentByClass, Don't use GetComponentByClass
 
-	//ControlledTank->Fire //TODO: Fix Firing
-
+	AimingComponent->Fire();
 }
 
