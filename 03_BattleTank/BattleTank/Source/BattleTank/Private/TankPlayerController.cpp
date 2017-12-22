@@ -15,6 +15,7 @@ void ATankPlayerController::BeginPlay()
 {
 
 	Super::BeginPlay(); // makes sure BeginPlay on super class is called
+	if (!GetPawn()) { return; } // e.g if not possesing // We don't use ensure here because at runtime we may not possess the tank
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	FoundAimingComponent(AimingComponent);
@@ -36,6 +37,7 @@ void ATankPlayerController::Tick(float deltatime)
 void ATankPlayerController::AimTowardsCrosshair()
 
 {
+	if (!GetPawn()) { return; } // e.g if not possesing // We don't use ensure here because at runtime we may not possess the tank
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 
