@@ -16,23 +16,40 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
-{
-	UE_LOG(LogTemp,Warning,TEXT("Ticking"))
-}
-
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	LastFireTime = FPlatformTime::Seconds();
-	if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds) //difference in time between currentime and lastfiretime more than reloadtime 
+}
+
+
+void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
+{
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) //difference in time between currentime and lastfiretime more than reloadtime 
 	{
 		FiringState = EFiringState::Reloading;
+	}
+	else if (IsBarrelMoving()) {
+		FiringState = EFiringState::Aiming;
+	}
+	else {
+		FiringState = EFiringState::Locked;
 	}
 	//TODO: Handle Lock State
 }
 
+void UTankAimingComponent::Initialize(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
+{
+	Barrel = BarrelToSet;
+	Turret = TurretToSet;
+}
 
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel)) { return false; }	// First thing is you must always ensure to protect null pointer reference // We only use ensure for things that will never ever happen in the production of the game
+	auto BarrelForward = Barrel->GetForwardVector();
+	return !BarrelForward.Equals(AimDirection , 0.01); // vectors are equal
+}
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel)) { return; } // protecting reference
@@ -52,7 +69,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	);
 	if (bHaveAimSolution)
 	{
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal(); // unit vector
+	    AimDirection = OutLaunchVelocity.GetSafeNormal(); // unit vector
 		MoveBarrelTowards(AimDirection); //pass AimDirection
 		float Time = GetWorld()->GetTimeSeconds();
 		//UE_LOG(LogTemp, Warning, TEXT("%f : Aim solution found"), Time)
@@ -61,16 +78,10 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	}//auto  OurTankname = GetOwner()->GetName();
 	//auto BarrelLocation = Barrel->GetComponentLocation().ToString();
 	//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *OurTankname, *HitLocation.ToString(), *BarrelLocation);
-	
-}
-void UTankAimingComponent::Initialize(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
-{
-	Barrel = BarrelToSet;
-	Turret = TurretToSet;
 }
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	if (!ensure(Barrel) || !ensure(Turret) ) { return; }
+	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 
 	// Work out difference between current barrel rotation , and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation(); //GetForwardVector Gets direction
@@ -84,8 +95,8 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::Fire()
 {
-	
-	if (FiringState!=EFiringState::Reloading) {
+
+	if (FiringState != EFiringState::Reloading) {
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBlueprint)) { return; }
 		// spawn a projectile at the socket location at the barrel

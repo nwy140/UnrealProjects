@@ -43,6 +43,8 @@ protected:
 
 private:
 	UTankAimingComponent();
+	
+	bool IsBarrelMoving();
 
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 	//Tick Component method will be used if you are using an ActorComponent, Tick will be used if you are an Actor
@@ -67,4 +69,6 @@ private:
 	float ReloadTimeInSeconds = 3;
 
 	double LastFireTime = 0;
+	
+	FVector AimDirection;
 };
