@@ -101,3 +101,6 @@ DerivedDataCache/*
 02_BuildingEscape/BuildingEscape/Binaries/HTML5/BuildingEscape.js
 03_BattleTank/BattleTank/Content/StarterContent/
 03_BattleTank/BattleTank/BattleTank/Content/StarterContent/Props/SM_Shelf.uasset
+02_BuildingEscape/BuildingEscape/Binaries/Win64/BuildingEscape.version
+02_BuildingEscape/BuildingEscape/Binaries/Win64/BuildingEscape.target
+02_BuildingEscape/BuildingEscape/Binaries/Win64/BuildingEscape.exp

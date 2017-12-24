@@ -42,8 +42,9 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (!ensure(AimingComponent)) { return; }
 
 	FVector HitLocation; //OUT parameter
-
-	if (GetSightRayHitLocation(HitLocation)) { //Has "side-effect" , is going to line trace
+	bool bGotHitLocation =GetSightRayHitLocation(HitLocation);
+	//UE_LOG(LogTemp, Warning, TEXT("bGotHitLocation: %i"),bGotHitLocation);
+	if (bGotHitLocation) { //Has "side-effect" , is going t0o line trace
 		AimingComponent->AimAt(HitLocation);//Refering to Tank Pawn, regardless possed by player or AI , so pass name from subclass instead, 
 		//if hits the lanscape
 
@@ -67,11 +68,12 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector & OutHitLocation) con
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection)) {
 		// Line-trace alog that look direction, and see what we hit (up to max range)
-		GetLookVectorHitLocation(LookDirection, OutHitLocation);
+		return GetLookVectorHitLocation(LookDirection, OutHitLocation);
 		//UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *LookDirection.ToString()) // due to pythagoras theorem , the value, hypotamus is always one, therefore log Vectors does not appear more than 1 for Deprojecttoscreen	
+		
 	}
 #pragma endregion
-	return true;
+	return false;
 }
 bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation) const
 {

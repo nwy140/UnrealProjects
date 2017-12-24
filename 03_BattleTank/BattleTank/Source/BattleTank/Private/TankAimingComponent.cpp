@@ -48,7 +48,7 @@ bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!ensure(Barrel)) { return false; }	// First thing is you must always ensure to protect null pointer reference // We only use ensure for things that will never ever happen in the production of the game
 	auto BarrelForward = Barrel->GetForwardVector();
-	return !BarrelForward.Equals(AimDirection , 0.01); // vectors are equal
+	return !BarrelForward.Equals(AimDirection, 0.01); // vectors are equal
 }
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
@@ -69,7 +69,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	);
 	if (bHaveAimSolution)
 	{
-	    AimDirection = OutLaunchVelocity.GetSafeNormal(); // unit vector
+		AimDirection = OutLaunchVelocity.GetSafeNormal(); // unit vector
 		MoveBarrelTowards(AimDirection); //pass AimDirection
 		float Time = GetWorld()->GetTimeSeconds();
 		//UE_LOG(LogTemp, Warning, TEXT("%f : Aim solution found"), Time)
@@ -88,9 +88,13 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 	//UE_LOG(LogTemp, Warning, TEXT("DeltaRotator: %s"), *DeltaRotator.ToString())
-
 	Barrel->Elevate(DeltaRotator.Pitch); //TODO: remove magic number
-	Turret->Rotate(DeltaRotator.Yaw);
+	if (FMath::Abs(DeltaRotator.Yaw) < 180) { //Abs makes it always positive / modulus
+		Turret->Rotate(DeltaRotator.Yaw);
+	}
+	else {
+		Turret->Rotate(-DeltaRotator.Yaw);
+	}
 }
 
 void UTankAimingComponent::Fire()
