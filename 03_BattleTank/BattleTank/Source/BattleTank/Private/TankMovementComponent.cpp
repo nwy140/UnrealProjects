@@ -2,6 +2,7 @@
 
 #include "TankMovementComponent.h"
 #include "TankTrack.h"
+#include "Kismet/GameplayStatics.h" //For FMath::Clamp<> to work
 
 void UTankMovementComponent::Initialize(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {

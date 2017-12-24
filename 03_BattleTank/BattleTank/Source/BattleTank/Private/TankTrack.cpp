@@ -8,12 +8,13 @@
 UTankTrack::UTankTrack()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-
 }
 void UTankTrack::BeginPlay()
 {
-
+	Super::BeginPlay();
+	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit); //Register Track to generate hit events first //Register delegate at BeginPlay for OnHit() Events
 }
+
 
 void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
@@ -29,10 +30,16 @@ void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 	TankRoot->AddForce(CorrectionAcceleration);
 }
 
+void UTankTrack::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComp, FVector NormalImpulse, const FHitResult & Hit)
+{
+	UE_LOG(LogTemp, Warning, TEXT(" OnHit() called!!!"), *GetName());
+}
+
 void UTankTrack::SetThrottle(float Throttle)
 {
 
-	//TODO: Clamp Throttle
+	Throttle = FMath::Clamp<float>(Throttle, -0.5, 0.5	);
+
 	auto ForceApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent()); //GetOwner gets Tank_Bp, GetRootComponent Get Tank Mesh but it gets a scene component which you can't add force to it, so you have to cast it down to PrimitiveComponent
