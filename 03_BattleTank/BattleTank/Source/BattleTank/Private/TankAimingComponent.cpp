@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Fill OutOfRoundsLeft your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
@@ -25,24 +25,32 @@ void UTankAimingComponent::BeginPlay()
 
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
-	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) //difference in time between currentime and lastfiretime more than reloadtime 
+	if (RoundsLeft <= 0)
+	{
+		FiringState = EFiringState::OutOfAmmo;
+	}
+
+	else if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) //difference in time between currentime and lastfiretime more than reloadtime 
 	{
 		FiringState = EFiringState::Reloading;
 	}
 	else if (IsBarrelMoving()) {
 		FiringState = EFiringState::Aiming;
 	}
-	else {
+	else if (!IsBarrelMoving()) {
 		FiringState = EFiringState::Locked;
 	}
+
 	//TODO: Handle Lock State
 }
+}
+
+
 
 EFiringState UTankAimingComponent::GetFiringState() const
 {
 	return FiringState;
 }
-
 
 void UTankAimingComponent::Initialize(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
 {
@@ -71,7 +79,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 		false,
 		0,
 		0,
-		ESuggestProjVelocityTraceOption::DoNotTrace //Commenting this out cause bugs// Passing parameters even though default will be set if you don't pass may solve bugs with whether each frame found solution or not
+		ESuggestProjVelocityTraceOption::DoNotTrace //Commenting this Out cause bugs// Passing parameters even though default will be set if you don't pass may solve bugs with whether each frame found solution or not
 	);
 	if (bHaveAimSolution)
 	{
@@ -87,7 +95,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 
-	// Work out difference between current barrel rotation , and AimDirection
+	// Work Out difference between current barrel rotation , and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation(); //GetForwardVector Gets direction
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
@@ -104,13 +112,19 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 void UTankAimingComponent::Fire()
 {
 
-	if (FiringState != EFiringState::Reloading) {
+	if (FiringState == EFiringState::Locked && FiringState == EFiringState::Aiming) {
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBlueprint)) { return; }
 		// spawn a projectile at the socket location at the barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile"))); //You must include Projectile.h , as well as UTankBarrel.h
 		Projectile->LaunchProjectile(LaunchSpeed);
+		RoundsLeft--;
 		LastFireTime = FPlatformTime::Seconds();
 	}
+}
+
+int UTankAimingComponent::GetRoundsLeft() const
+{
+	return RoundsLeft;
 }
 

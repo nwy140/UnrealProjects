@@ -12,7 +12,8 @@ enum class EFiringState : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	OutOfAmmo   //Restart Unreal Editor to refresh enum
 };
 
 //Forward declaration
@@ -38,10 +39,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int GetRoundsLeft() const;
+	
+
 	EFiringState GetFiringState() const;
+
 protected:
 	UPROPERTY(BlueprintReadOnly , Category = "State" )
 	EFiringState FiringState = EFiringState::Reloading;
+
+	//UPROPERTY(BlueprintReadOnly, Category = "Firing")
+	int RoundsLeft = 3; //bp readponly can auto GetAmmo called in BP without declaring in C++ // but we declare its getter this time because its much clearer
 
 private:
 	UTankAimingComponent();
@@ -73,4 +82,5 @@ private:
 	double LastFireTime = 0;
 	
 	FVector AimDirection;
+	
 };
