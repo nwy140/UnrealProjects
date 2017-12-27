@@ -6,13 +6,6 @@
 */DerivedDataCache
 
 
-
-#Ignore starter content
-02_BuildingEscape/BuildingEscape/Content/StarterContent
-!D:\Projects\UnrealProjects\Repos\02_BuildingEscape\BuildingEscape\Content\StarterContent\Props\SM_Chair.uasset
-
-
-
 # Visual Studio 2015 user specific files
 .vs/
 
