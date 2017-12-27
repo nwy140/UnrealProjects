@@ -50,7 +50,7 @@ protected:
 	EFiringState FiringState = EFiringState::Reloading;
 
 	//UPROPERTY(BlueprintReadOnly, Category = "Firing")
-	int RoundsLeft = 3; //bp readponly can auto GetAmmo called in BP without declaring in C++ // but we declare its getter this time because its much clearer
+	int RoundsLeft = 3	; //bp readponly can auto GetAmmo called in BP without declaring in C++ // but we declare its getter this time because its much clearer
 
 private:
 	UTankAimingComponent();
