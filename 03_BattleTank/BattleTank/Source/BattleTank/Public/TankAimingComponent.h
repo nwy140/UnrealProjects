@@ -40,7 +40,7 @@ public:
 	void Fire();
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int GetRoundsLeft() const;
+	int32 GetRoundsLeft() const;
 	
 
 	EFiringState GetFiringState() const;
@@ -49,8 +49,8 @@ protected:
 	UPROPERTY(BlueprintReadOnly , Category = "State" )
 	EFiringState FiringState = EFiringState::Reloading;
 
-	//UPROPERTY(BlueprintReadOnly, Category = "Firing")
-	int RoundsLeft = 3	; //bp readponly can auto GetAmmo called in BP without declaring in C++ // but we declare its getter this time because its much clearer
+	UPROPERTY(EditDefaultsOnly , Category = "Firing")
+	int32 RoundsLeft = 3	; //bp readponly can auto GetAmmo called in BP without declaring in C++ // but we declare its getter this time because its much clearer
 
 private:
 	UTankAimingComponent();
