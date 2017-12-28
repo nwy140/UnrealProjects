@@ -6,13 +6,6 @@
 */DerivedDataCache
 
 
-
-#Ignore starter content
-02_BuildingEscape/BuildingEscape/Content/StarterContent
-!D:\Projects\UnrealProjects\Repos\02_BuildingEscape\BuildingEscape\Content\StarterContent\Props\SM_Chair.uasset
-
-
-
 # Visual Studio 2015 user specific files
 .vs/
 
@@ -93,13 +86,5 @@ DerivedDataCache/*
 02_BuildingEscape/BuildingEscape/Saved/
 02_BuildingEscape/BuildingEscape/Binaries/Win64/BuildingEscapeEditor.target
 02_BuildingEscape/BuildingEscape/Binaries/Win64/UE4Editor.modules
-02_BuildingEscape/BuildingEscape/Binaries/HTML5/BuildingEscape.bc
-02_BuildingEscape/BuildingEscape/Binaries/HTML5/BuildingEscape.asm.js
-02_BuildingEscape/BuildingEscape/Binaries/HTML5/BuildingEscape.target
-02_BuildingEscape/BuildingEscape/Binaries/HTML5/BuildingEscape.js.symbols
-02_BuildingEscape/BuildingEscape/Binaries/HTML5/BuildingEscape.js.mem
-02_BuildingEscape/BuildingEscape/Binaries/HTML5/BuildingEscape.js
-02_BuildingEscape/BuildingEscape/Binaries/Win64/BuildingEscape.version
-02_BuildingEscape/BuildingEscape/Binaries/Win64/BuildingEscape.target
-02_BuildingEscape/BuildingEscape/Binaries/Win64/BuildingEscape.exp
-MyAssets/StarterContent/Content/StarterContent/
+
+*/Content/StarterContent
