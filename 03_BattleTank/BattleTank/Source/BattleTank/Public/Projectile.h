@@ -30,9 +30,13 @@ private:
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor*  OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult&  Hit);
 
+	void OnTimerExpire();
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")	
+	float DestroyDelay = 10.f;
+
 	// Needs to be protected so BP can modify the one inherited to BP from original cpp to avoid copying/	UProjectileMovementComponent* ProjectileMovement = nullptr;
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
-
 
 	UPROPERTY(VisibleAnywhere , Category = "Components")
 	UStaticMeshComponent* CollisionMesh = nullptr;
@@ -43,6 +47,7 @@ private:
 	UPROPERTY(VisibleANywhere, Category = "Components")
 	UParticleSystemComponent* ImpactBlast = nullptr; 
 
-	UPROPERTY(VisibleANywhere, Category = "Components")
+	UPROPERTY(EditAnywhere, Category = "Components")
 	URadialForceComponent* ExplosionForce = nullptr;
+
 };
