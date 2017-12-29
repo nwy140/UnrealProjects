@@ -5,7 +5,7 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/PrimitiveComponent.h"
-
+#include "PhysicsEngine/RadialForceComponent.h"
 
 
 // Sets default values
@@ -29,8 +29,11 @@ AProjectile::AProjectile()
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement")); //Create UProjectileMovement component to be added to class which will be inherited to Projectile_BP
 	ProjectileMovement->bAutoActivate = false; //this means it won't stop flying off until we actually fire it
 
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force"));
+	ExplosionForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);  //Must Attack or else Tank collided will keep moving endlessly
+		//Restart UE4 if Transform of ExplosionForce doesn't appear in Blueprints
 }
-
+	
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay()
 {
@@ -43,6 +46,7 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 {
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
+	ExplosionForce->FireImpulse();
 }
 
 void AProjectile::LaunchProjectile(float speed)
