@@ -18,6 +18,19 @@ void ATank::BeginPlay()
 
 }
 
+float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
+{
+	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
+	int32 DamageToApply = FMath::Clamp<int32>(DamagePoints, 0, CurrentHealth); //avoid comparing floats to 0, so use int32, floats are never accurately equals to 0
+	
+	CurrentHealth -= DamageToApply;
+	if (CurrentHealth <= 0) {
+		UE_LOG(LogTemp,Warning,TEXT("Tank Died"))
+	}
+	//UE_LOG(LogTemp,Warning,TEXT("DamageAmount== %f , DamageToApply = %i"),DamageAmount,DamageToApply) //putting int in %f will return 0, you must specifically put int in %i
+	return DamageToApply;
+}
+
 
 
 

@@ -35,6 +35,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")	
 	float DestroyDelay = 10.f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float ProjectileDamage = 20.f;
+
 	// Needs to be protected so BP can modify the one inherited to BP from original cpp to avoid copying/	UProjectileMovementComponent* ProjectileMovement = nullptr;
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
 
