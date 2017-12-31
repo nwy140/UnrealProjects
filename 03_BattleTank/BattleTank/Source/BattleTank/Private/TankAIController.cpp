@@ -8,6 +8,7 @@
 #include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 #include "TankAimingComponent.h"
+#include "Tank.h" // So we can implement OnDeath
 
 //Depends on MovementComponent via AI pathfinding
 
@@ -19,6 +20,25 @@ void ATankAIController::BeginPlay()
 {
 
 	Super::BeginPlay();
+}
+
+
+void ATankAIController::SetPawn(APawn * InPawn) //We use and override SetPawn because constructor is too early, and begin play might not be called
+{
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+		auto PossesedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossesedTank)) { return; }
+
+		//Subscribe our local method to the tank's death event
+		PossesedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
+
+	}
+}
+
+void ATankAIController::OnPossessedTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("REceived"))
 }
 
 
@@ -37,9 +57,9 @@ void ATankAIController::Tick(float deltatime)
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 	// Use FindComponentByClass, Don't use GetComponentByClass
 
-if (AimingComponent->GetFiringState() == EFiringState::Locked)
-{
-	AimingComponent->Fire();
-}
+	if (AimingComponent->GetFiringState() == EFiringState::Locked)
+	{
+		AimingComponent->Fire();
+	}
 }
 

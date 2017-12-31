@@ -10,14 +10,6 @@
 #include "AIController.h"
 #include "TankAIController.generated.h"
 
-/**
-
-*
-
-*/
-
-//Forward declaration
-
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 
@@ -30,11 +22,14 @@ protected:
 	float AcceptanceRadius =8000; 	//How close can the AI tank gets to the player //AI will get 80 m near player
 
 private:
-
 	void BeginPlay() override;
+
+	virtual void SetPawn(APawn* InPawn) override;
+
 	virtual void Tick(float deltatime) override;
 
-
+	UFUNCTION()
+	void OnPossessedTankDeath(); //Listeners of delegate FTankDelegate
 
 };
 	

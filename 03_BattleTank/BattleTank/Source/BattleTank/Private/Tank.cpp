@@ -3,6 +3,8 @@
 #include "Tank.h"
 #include "Engine/World.h" 
 
+
+
 float ATank::GetHealthPercent() const
 {
 	return (float)CurrentHealth / (float)StartingHealth; //Cast them to a float to use them as decimal points as percentages 
@@ -29,7 +31,7 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AC
 	
 	CurrentHealth -= DamageToApply;
 	if (CurrentHealth <= 0) {
-		UE_LOG(LogTemp,Warning,TEXT("Tank Died"))
+		OnDeath.Broadcast();
 	}
 	//UE_LOG(LogTemp,Warning,TEXT("DamageAmount== %f , DamageToApply = %i"),DamageAmount,DamageToApply) //putting int in %f will return 0, you must specifically put int in %i
 	return DamageToApply;
