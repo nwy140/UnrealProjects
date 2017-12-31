@@ -1,8 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
-
 #include "Engine/World.h" 
+
+float ATank::GetHealthPercent() const
+{
+	return (float)CurrentHealth / (float)StartingHealth; //Cast them to a float to use them as decimal points as percentages 
+}
 // Sets default values
 ATank::ATank()
 {
