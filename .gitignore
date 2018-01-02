@@ -103,3 +103,4 @@ DerivedDataCache/*
 02_BuildingEscape/BuildingEscape/Binaries/Win64/BuildingEscape.target
 02_BuildingEscape/BuildingEscape/Binaries/Win64/BuildingEscape.exp
 MyAssets/StarterContent/Content/StarterContent/
+03_BattleTank/BattleTank/Content/Mortar/NewBlueprint.uasset
