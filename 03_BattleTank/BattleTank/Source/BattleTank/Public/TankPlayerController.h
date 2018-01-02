@@ -68,7 +68,9 @@ private:
 #pragma endregion
 #pragma endregion
 
+	virtual void SetPawn(APawn* InPawn) override;
 
-	
+	UFUNCTION()
+	void OnPossessedTankDeath();
 
 };
