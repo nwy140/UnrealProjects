@@ -1,4 +1,16 @@
+
+
+
 #Binaries Build Intermediates and Saved Directories can be ignored
+Binaries
+
+DerivedDataCache
+
+Intermediate
+
+Saved
+
+
 */Binaries
 */Build
 */Intermediate
@@ -104,3 +116,6 @@ DerivedDataCache/*
 02_BuildingEscape/BuildingEscape/Binaries/Win64/BuildingEscape.exp
 MyAssets/StarterContent/Content/StarterContent/
 03_BattleTank/BattleTank/Content/Mortar/NewBlueprint.uasset
+Archive/VeryOldProjects/MyProject/Content/StarterContent/
+Archive/VeryOldProjects/MyProject2/Content/StarterContent
+

@@ -48,6 +48,11 @@ private: //Members can be accessed only inside class
 
 #pragma region UnrealMacros
 UClass 	  (  //meta = BlueprintSpawnable , // hidecategories = ("Collision"))
-UPROPERTY (  //VisibleAnywhere //EditAnywhere  //EditDefaultsOnly //BlueprintAssignable //BlueprintPure is the blueprint equailavent of const //BlueprintReadOnly for getting variables	//Category = Setup 
+UPROPERTY (  //VisibleAnywhere //EditAnywhere  //EditDefaultsOnly //EditInstanceOnly //BlueprintAssignable //BlueprintPure is the blueprint equailavent of const //BlueprintReadOnly for getting variables	//Category = Setup 
 UFUNCTION (  //BlueprintCallable //BlueprintImplementableEvent
 #pragma endregion
+
+
+
+Git Commands
+git clean -d -x -i //remove all ignored files thus saves storage space

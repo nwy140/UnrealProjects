@@ -1,0 +1,147 @@
+# Usage:
+# Select all the objects from a makehuman model in object mode, and run the script
+
+# Copyright 2016 William Forster
+
+import bpy
+import mathutils
+
+print("\nStart script")
+
+# We have to go through the selected objects and deduce which is which
+# start by creating some empty veriables
+armature = None
+all_meshes = []
+
+# go through the selected objects
+for object in bpy.context.selected_objects: 
+    if object.type == 'MESH':
+        all_meshes.append(object)
+    if object.type == 'ARMATURE':
+        armature = object
+
+pose_bones = armature.pose.bones        # the pose bones (pose type bone data) of the selected object
+
+# Go through the pose bones in the rig
+for posebone in pose_bones:
+    print("Rotating bone " + posebone.name)
+    
+	# Rotate the bone if it is the upperarm_l bone
+    if posebone.name.upper() == "UPPERARM_L":
+       posebone.rotation_quaternion += mathutils.Quaternion((0.0, 0, -0.23, 0))
+	   
+	# Rotate the rest of the bones
+    if posebone.name.upper() == "UPPERARM_R":
+       posebone.rotation_quaternion += mathutils.Quaternion((0.0, 0, 0.23, 0))
+    if posebone.name.upper() == "LOWERARM_L":
+       posebone.rotation_quaternion += mathutils.Quaternion((0.0, -0.11, -0.1, -0.08))
+    if posebone.name.upper() == "LOWERARM_R":
+        posebone.rotation_quaternion += mathutils.Quaternion((0.0, -0.11, 0.1, 0.08))
+    if posebone.name.upper() == "HAND_L":
+        posebone.rotation_quaternion += mathutils.Quaternion((0.0, -.1, 0.46, -0.06))
+    if posebone.name.upper() == "HAND_R":
+        posebone.rotation_quaternion += mathutils.Quaternion((0.0, -.1, -0.46, 0.06))
+    if posebone.name.upper() == "THIGH_L":
+        posebone.rotation_quaternion += mathutils.Quaternion((0.0, 0.06, 0.0, -0.015))
+    if posebone.name.upper() == "THIGH_R":
+        posebone.rotation_quaternion += mathutils.Quaternion((0.0, 0.06, 0.0, 0.015))
+    if posebone.name.upper() == "CALF_L":
+        posebone.rotation_quaternion += mathutils.Quaternion((0.0, -0.0125, 0.0, 0.0))
+    if posebone.name.upper() == "CALF_R":
+        posebone.rotation_quaternion += mathutils.Quaternion((0.0, -0.0125, 0.0, 0.0))
+    if posebone.name.upper() == "FOOT_L":
+        posebone.rotation_quaternion += mathutils.Quaternion((0.0, -0.04, 0.0, 0.0))
+    if posebone.name.upper() == "FOOT_R":
+        posebone.rotation_quaternion += mathutils.Quaternion((0.0, -0.04, 0.0, 0.0))
+        
+    if posebone.name.upper() == "NECK_01":
+        posebone.rotation_quaternion += mathutils.Quaternion((0.0, -0.06, 0.0, 0.0))
+    if posebone.name.upper() == "HEAD":
+        posebone.rotation_quaternion += mathutils.Quaternion((0.0, 0.104, 0.0, 0.0))
+        
+        
+# For each mesh, copy the armature modifier, then apply one of them to 
+# bake the pose into the mesh
+for mesh in all_meshes:
+    print("Copying armature modifier of " + mesh.name)
+    bpy.context.scene.objects.active = mesh
+    bpy.ops.object.modifier_copy(modifier = mesh.modifiers[0].name)
+    print("Baking pose to mesh " + mesh.name)
+    bpy.ops.object.modifier_apply(modifier = mesh.modifiers[0].name)
+
+# Apply the pose so it is the new rest position
+print("Setting pose as rest pose")
+bpy.context.scene.objects.active = armature
+bpy.ops.object.mode_set(mode='POSE')
+bpy.ops.pose.armature_apply()
+bpy.ops.object.mode_set(mode='OBJECT')
+
+
+# create all the twist bones ready for weight painting 
+bpy.ops.object.mode_set(mode='EDIT')
+def getbone(bone_name):
+    for bone in armature.data.edit_bones:
+        if bone.name.upper() == bone_name.upper():
+            return bone
+        
+def create_bone(parentname, newname, headoffset, tailoffset):
+    oldbone = getbone(parentname)
+    bpy.ops.armature.select_all(action = 'DESELECT')
+    oldbone.select = True
+    bpy.ops.armature.extrude()
+    bpy.ops.armature.select_all(action = 'DESELECT')
+    newbone = getbone(parentname + ".001")
+    newbone.name = newname
+    newbone.use_connect = False         # don't join the head of this bone to the tail of its parent - free floating
+    newbone.head = oldbone.head + mathutils.Vector(headoffset)
+    newbone.tail = newbone.head + mathutils.Vector(tailoffset)
+    print("Created bone " + newname)
+   
+create_bone("upperarm_l", "upperarm_twist_01_l", (0.3, 0.4, 0), (-1, -0.6, -15.4))
+create_bone("upperarm_r", "upperarm_twist_01_r", (-0.3, 0.4, 0), (-5, -2.9, 14.3))
+create_bone("lowerarm_l", "lowerarm_twist_01_l", (10.1, -7.7, 6), (4.6, 8.2, -18.2))
+create_bone("lowerarm_r", "lowerarm_twist_01_r", (-10.1, -7.7, 6), (1.4, -11.5, 16.9))
+create_bone("thigh_l", "thigh_twist_01_l", (2.7, -21.9, -0.7), (-1.8, -0.8, -32.3))
+create_bone("thigh_r", "thigh_twist_01_r", (-2.7, -21.9, -0.7), (-1.8, 0.8, 32.3))
+create_bone("calf_l", "calf_twist_01_l", (1.5, -20.2, -3.2), (-2.1, -5, -29.8))
+create_bone("calf_r", "calf_twist_01_r", (-1.5, -20.2, -3.2), (-2.1, 5, 29.8))
+bpy.ops.object.mode_set(mode='OBJECT')
+
+
+# create the vertex groups for the twist bones
+bpy.context.tool_settings.vertex_group_weight = 0.0
+
+def try_add_group(meshobj, parentname, newname):
+    for vgroup in meshobj.vertex_groups:
+        if vgroup.name.upper() == parentname.upper():
+            bpy.ops.object.vertex_group_add()
+            meshobj.vertex_groups[-1].name = newname
+            # select the vertices from parent vgroup and
+            # assign them to the new vgroup with weight 0.
+            bpy.ops.object.vertex_group_set_active(group = parentname.lower())
+            bpy.ops.mesh.select_all(action = 'DESELECT')
+            bpy.ops.object.vertex_group_select()
+            bpy.ops.object.vertex_group_set_active(group = newname)
+            bpy.ops.object.vertex_group_assign()
+            print("Added vertex group " + newname)
+for currentmesh in all_meshes:
+    bpy.context.scene.objects.active = currentmesh
+    bpy.ops.object.mode_set(mode='EDIT')    # we need to go into edit mode to do this
+    try_add_group(currentmesh, "upperarm_l", "upperarm_twist_01_l")
+    try_add_group(currentmesh, "lowerarm_l", "lowerarm_twist_01_l")
+    try_add_group(currentmesh, "thigh_l", "thigh_twist_01_l")
+    try_add_group(currentmesh, "calf_l", "calf_twist_01_l")
+    ## only create the left vertex groups - if the makehuman model is symmetrical
+    ## you can copy the left vertex weights to create the 
+    ## right side using Mirror Vertex Group (Topology).
+    ## otherwise uncomment the following.
+    #try_add_group(currentmesh, "upperarm_r", "upperarm_twist_01_r")
+    #try_add_group(currentmesh, "lowerarm_r", "lowerarm_twist_01_r")
+    #try_add_group(currentmesh, "thigh_r", "thigh_twist_01_r")
+    #try_add_group(currentmesh, "calf_r", "calf_twist_01_r")
+    
+    # put us back in object mode where we started
+    bpy.ops.object.mode_set(mode='OBJECT') 
+
+print("Finished script")
+        
