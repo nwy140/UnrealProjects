@@ -47,10 +47,15 @@ private: //Members can be accessed only inside class
 #pragma endregion
 
 #pragma region UnrealMacros
-UClass 	  (  //meta = BlueprintSpawnable , // hidecategories = ("Collision"))
-UPROPERTY (  //VisibleAnywhere //EditAnywhere  //EditDefaultsOnly //EditInstanceOnly //BlueprintAssignable //BlueprintPure is the blueprint equailavent of const //BlueprintReadOnly for getting variables	//Category = Setup 
+UClass 	  (  //meta = (BlueprintSpawnable) // (Blueprintable) , // hidecategories = ("Collision"))
+UPROPERTY (  //VisibleAnywhere //EditAnywhere  //EditDefaultsOnly //EditInstanceOnly //BlueprintAssignable //BlueprintReadWrite //BlueprintPure is the blueprint equailavent of const //BlueprintReadOnly for getting variables	//Category = Setup 
 UFUNCTION (  //BlueprintCallable //BlueprintImplementableEvent
 #pragma endregion
+
+//AI BehaviorTree
+Composite (Sequence (if a node fail, return fail) Selector (if one node suceed, return suceed))
+Decorator (If Conditions)
+Service (OnTick Executes every frame once the task starts)
 
 
 
