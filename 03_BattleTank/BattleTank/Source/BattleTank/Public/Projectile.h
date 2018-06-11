@@ -19,6 +19,7 @@ public:
 	// Sets default values for this actor's properties
 	AProjectile();
 
+	UFUNCTION(BlueprintCallable, Category = "Weaponry")
 	void LaunchProjectile(float speed);
 
 protected:
