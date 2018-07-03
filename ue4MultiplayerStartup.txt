@@ -1,0 +1,18 @@
+UE4 C++ Multiplayer
+
+UPROPERTY(Replicated) // Replicated Property 
+UPROPERTY(ReplicatedUsing=OnRep_Propertyname) //Repnotify
+
+UFUNCTION(NetMulticast, Reliable); //MultiCast Function/Event // if called on server, call at all clients //vs assist shift+alt+q auto create implementation of function
+					//--> Make an _Implementation of this function to call it 
+
+
+Always override function and pass in your property when you use UPRORTY for replication
+void AFPSCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps); // override this virtual function and pass in the variable/attribute everytime you use UPROPERTY(ReplicatedUsing=OnRep_VariableAttribute)
+
+	DOREPLIFETIME(AFPSCharacter, bIsCarryingObjective/*,COND_OwnerOnly*/); // COND set to only sends to whoever who is controlling this character
+										// use COND for optimization 
+}
+
