@@ -3,6 +3,8 @@ UE4 C++ Multiplayer
 UPROPERTY(Replicated) // Replicated Property 
 UPROPERTY(ReplicatedUsing=OnRep_Propertyname) //Repnotify
 
+UFUNCTION(Server, Reliable, WithValidation) //Server Function/Event // WithValidation is required when using server function // Reliable means it will definitely reach server     
+
 UFUNCTION(NetMulticast, Reliable); //MultiCast Function/Event // if called on server, call at all clients //vs assist shift+alt+q auto create implementation of function
 					//--> Make an _Implementation of this function to call it 
 
