@@ -48,7 +48,7 @@ private: //Members can be accessed only inside class
 
 #pragma region UnrealMacros
 UClass 	  (  //meta = (BlueprintSpawnable) // (Blueprintable) , // hidecategories = ("Collision")) 
-UPROPERTY (  //VisibleAnywhere //EditAnywhere  //EditDefaultsOnly //EditInstanceOnly //BlueprintAssignable //BlueprintReadWrite //BlueprintPure is the blueprint equailavent of const //BlueprintReadOnly for getting variables	//Category = Setup 
+UPROPERTY (  //VisibleAnywhere //VisibleDefaultsOnly //EditAnywhere  //EditDefaultsOnly //EditInstanceOnly //BlueprintAssignable //BlueprintReadWrite //BlueprintPure is the blueprint equailavent of const //BlueprintReadOnly for getting variables	//Category = Setup 
 UPROPERTY (  //ReplicatedUsing=OnRep_EnumStateNamemethod								Category="Multiplayer"
 UFUNCTION (  //BlueprintCallable //BlueprintImplementableEvent /*implement method in BP instead of C++*/ //Server, Reliable, WithValidation
 UENUM     (  //BlueprintType
